@@ -4,24 +4,29 @@
       <v-col cols="12" sm="10" md="8" lg="6">
         <v-card class="formulario" elevation="5" style="min-height: 400px;">
           <v-card-title class="text-center">
-            <h1 class="headline">INICIO DE SESIÓN</h1>
+            <h1 class="headline">INFORMACIÓN PERSONAL</h1>
           </v-card-title>
           <v-card-text>
-            <v-form @submit.prevent="loginUser" ref="loginForm" lazy-validation>
-              <v-text-field v-model="email" :rules="emailRules" label="Email" outlined
-                prepend-inner-icon="mdi-account-circle" required dense>
+            <v-form class="space-y-4" lazy-validation>
+              <v-text-field label="Nombre" outlined prepend-inner-icon="mdi-account-box" required dense>
               </v-text-field>
+
+              <v-text-field label="Apellidos" outlined prepend-inner-icon="mdi-account-box" required dense>
+              </v-text-field>
+
+              <v-text-field v-model="email" :rules="emailRules" label="Email" outlined prepend-inner-icon="mdi-email"
+                required dense>
+              </v-text-field>
+
               <v-text-field v-model="contrasenya" :rules="contrasenyaRules" label="Contraseña" outlined
                 prepend-inner-icon="mdi-lock" :append-inner-icon="showContrasenya ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="showContrasenya ? 'text' : 'password'" @click:append-inner="showContrasenya = !showContrasenya"
                 required dense>
               </v-text-field>
-              <v-alert v-if="errorMessage" type="error" dense>{{ errorMessage }}</v-alert>
             </v-form>
+
             <v-card-actions class="btn">
-              <v-btn color="primary" class="white--text" @click="loginUser" rounded>
-                Iniciar sesión
-              </v-btn>
+              <v-btn color="primary" class="white--text" rounded>Editar perfil</v-btn>
             </v-card-actions>
           </v-card-text>
           <v-divider></v-divider>
@@ -30,6 +35,7 @@
     </v-row>
   </v-container>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';
@@ -54,27 +60,9 @@ const contrasenyaRules = [
   (value) => (value && value.length >= 5) || 'Debe tener al menos 5 caracteres',
   (value) => /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(value) || 'Debe contener al menos una letra y un número',
 ];
-
-const loginUser = async () => {
-  const userData = {
-    email: email.value,
-    contrasenya: contrasenya.value
-  };
-
-  try {
-    const response = await axios.post('http://localhost:8080/pfc/users/loginUser', userData);
-    localStorage.setItem('token', response.data.token);
-    window.location.href = '/';
-
-  } catch (error) {
-    errorMessage.value = 'El email o la contraseña son incorrectos';
-    console.error('Error:', error);
-  }
-};
 </script>
 
-
-<style scoped>
+<style>
 .formulario {
   padding: 24px;
   border-radius: 8px;
