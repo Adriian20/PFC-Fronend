@@ -35,14 +35,14 @@ import axios from 'axios';
 
 
 const showContrasenya = ref([false, false]);
-const errorMessage = ref('');
+const errorMessage = ref(null);
 
-const nombre = ref('');
-const apellidos = ref('');
-const email = ref('');
-const contrasenya = ref('');
-const confirmContrasenya = ref('');
-const cuenta_bancaria = ref('');
+const nombre = ref(null);
+const apellidos = ref(null);
+const email = ref(null);
+const contrasenya = ref(null);
+const confirmContrasenya = ref(null);
+const cuenta_bancaria = ref(null);
 
 const nombreRules = [
   (value) => !!value || 'Requerido',

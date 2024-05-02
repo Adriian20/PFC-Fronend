@@ -35,10 +35,10 @@
 import { ref } from 'vue';
 import axios from 'axios';
 
-const email = ref('');
-const contrasenya = ref('');
+const email = ref(null);
+const contrasenya = ref(null);
 const showContrasenya = ref(false);
-const errorMessage = ref('');
+const errorMessage = ref(null);
 
 const emailRules = [
   (value) => !!value || 'El email es requerido',
