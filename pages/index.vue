@@ -1,13 +1,11 @@
 <template>
   <div>
-    
+    <ShowArticles />
   </div>
 </template>
 
-<script lang="ts" setup>
-
+<script setup>
+import ShowArticles from '@/components/ShowArticles.vue';
 </script>
 
-<style>
-
-</style>
+<style></style>
