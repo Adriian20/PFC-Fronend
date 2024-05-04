@@ -8,26 +8,33 @@
         v-for="articulo in articulos"
         :key="articulo.id"
       >
-        <div
-          class="h-48 w-full bg-gray-200 flex flex-col justify-between p-4 bg-cover bg-center"
-          :style="{ backgroundImage: `url('${getImageUrl(articulo.img)}')` }"
-        >
-          <div>
-            <span
-              class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none"
-              v-if="articulo.stock > 5"
-            >
-              Disponible
-            </span>
-            <span
-              class="uppercase text-xs bg-red-50 p-0.5 border-red-500 border rounded text-red-700 font-medium select-none"
-              v-else
-            >
-              Quedan pocos
-            </span>
+        <a :href="`/seeArticle/${articulo.id}`">
+          <div
+            class="h-48 w-full rounded flex flex-col justify-between p-4 bg-cover bg-center overflow-hidden cursor-pointer"
+            :style="{
+              backgroundImage: `url('${getImageUrl(articulo.img)}')`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'center',
+            }"
+          >
+            <div>
+              <span
+                class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none"
+                v-if="articulo.stock > 5"
+              >
+                Disponible
+              </span>
+              <span
+                class="uppercase text-xs bg-red-50 p-0.5 border-red-500 border rounded text-red-700 font-medium select-none"
+                v-else
+              >
+                Quedan pocos
+              </span>
+            </div>
           </div>
-        </div>
+        </a>
 
+        <div class="border-b border-black mt-6"></div>
         <div class="p-4 flex flex-col items-center">
           <p class="text-gray-400 font-light text-xs text-center">
             {{ articulo.marca }}
@@ -112,23 +119,25 @@
 
 <script setup>
 import axios from "axios";
-import { ref } from 'vue';
+import { ref } from "vue";
 
 const getImageUrl = (imageName) => {
-  return `/images/${imageName}`; 
+  return `/images/${imageName}`;
 };
 
 let articulos = ref(null);
 
 async function showArticles() {
   try {
-    const response = await axios.get('http://localhost:8080/pfc/articles/allArticles');
+    const response = await axios.get(
+      "http://localhost:8080/pfc/articles/allArticles"
+    );
     const sortedArticulos = response.data.sort((a, b) => b.stock - a.stock);
     articulos.value = sortedArticulos;
   } catch (error) {
-    console.error('Error fetching articles:', error);
+    console.error("Error fetching articles:", error);
   }
-};
+}
 
 let selectedQuantities = ref({});
 const incrementQuantity = (id) => {
