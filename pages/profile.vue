@@ -42,6 +42,17 @@
               </v-text-field>
 
               <v-text-field
+                v-model="cuenta_bancaria"
+                :rules="cuentaBancariaRules"
+                label="Cuenta bancaria"
+                outlined
+                prepend-inner-icon="mdi-bank"
+                required
+                dense
+              >
+              </v-text-field>
+
+              <v-text-field
                 v-model="contrasenya"
                 :rules="contrasenyaRules"
                 label="Contraseña"
@@ -54,6 +65,10 @@
                 dense
               >
               </v-text-field>
+
+              <v-alert v-if="errorMessage" type="error" dense>
+                {{ errorMessage }}
+              </v-alert>
             </v-form>
 
             <v-card-actions class="btn">
@@ -61,7 +76,7 @@
                 color="primary"
                 class="white--text"
                 rounded
-                @click="editarPerfil"
+                @click="editProfile"
                 >Editar perfil</v-btn
               >
             </v-card-actions>
@@ -80,6 +95,7 @@ import axios from "axios";
 const nombre = ref(null);
 const apellidos = ref(null);
 const email = ref(null);
+const cuenta_bancaria = ref(null);
 const contrasenya = ref(null);
 const showContrasenya = ref(false);
 const errorMessage = ref(null);
@@ -100,6 +116,13 @@ const emailRules = [
   },
 ];
 
+const cuentaBancariaRules = [
+  (value) => !!value || "Requerido",
+  (value) =>
+    /^[A-Za-z]{2}\d{20}$/.test(value) ||
+    "El número de cuenta debe tener el formato correcto (dos letras seguidas de 20 dígitos)",
+];
+
 const contrasenyaRules = [
   (value) => !!value || "La contraseña es requerida",
   (value) => (value && value.length >= 5) || "Debe tener al menos 5 caracteres",
@@ -108,7 +131,7 @@ const contrasenyaRules = [
     "Debe contener al menos una letra y un número",
 ];
 
-async function obtenerInformacionUsuario() {
+async function showUserInformation() {
   const token = localStorage.getItem("token");
   try {
     const response = await axios.post(
@@ -116,38 +139,55 @@ async function obtenerInformacionUsuario() {
       { token },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer: ${token}`,
         },
       }
     );
     nombre.value = response.data.nombre;
     apellidos.value = response.data.apellidos;
     email.value = response.data.email;
+    cuenta_bancaria.value = response.data.cuenta_bancaria;
   } catch (error) {
     console.error("Error:", error);
     errorMessage.value = "No se pudo cargar la información del usuario";
   }
 }
 
-/*async function editarPerfil() {
+async function editProfile() {
+  const token = localStorage.getItem("token");
   try {
-    const response = await axios.put("http://localhost:8080/pfc/users/editProfile", {
-      // Aquí incluye los datos actualizados del usuario
+    const userData = {
       nombre: nombre.value,
       apellidos: apellidos.value,
       email: email.value,
-      // No se recomienda enviar la contraseña por motivos de seguridad
-      // contrasenya: contrasenya.value,
-      // token: tuTokenDeAutenticacion
-    });
-    // Manejar la respuesta del servidor según sea necesario
-  } catch (error) {
-    console.error("Error:", error);
-    errorMessage.value = "No se pudo editar el perfil";
-  }
-}*/
+      cuenta_bancaria: cuenta_bancaria.value,
+      contrasenya: contrasenya.value,
+    };
 
-obtenerInformacionUsuario();
+    const response = await axios.put(
+      "http://localhost:8080/pfc/users/editProfile",
+      userData,
+      {
+        headers: {
+          Authorization: `Bearer: ${token}`,
+        },
+      }
+    );
+
+    const updatedUserData = response.data;
+    
+    nombre.value = updatedUserData.nombre;
+    apellidos.value = updatedUserData.apellidos;
+    email.value = updatedUserData.email;
+    cuenta_bancaria.value = updatedUserData.cuenta_bancaria;
+    contrasenya.value = updatedUserData.contrasenya;
+  } catch (error) {
+    errorMessage.value = "No se pudo editar el perfil";
+    console.error("Error:", error);
+  }
+}
+
+showUserInformation();
 </script>
 
 <style>
