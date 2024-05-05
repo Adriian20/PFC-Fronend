@@ -5,7 +5,7 @@
     >
       <div
         class="w-full bg-white shadow rounded"
-        v-for="articulo in articulos"
+        v-for="articulo in paginatedArticles"
         :key="articulo.id"
       >
         <a :href="`/seeArticle/${articulo.id}`">
@@ -114,18 +114,39 @@
         </div>
       </div>
     </div>
+    <div class="mt-4 mb-2 flex justify-center">
+      <button
+        @click="prevPage"
+        :disabled="page <= 1"
+        class="px-4 py-2 mr-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+      >
+        Anterior
+      </button>
+
+      <span class="text-lg font-bold">{{ page }}</span>
+
+      <button
+        @click="nextPage"
+        :disabled="page >= totalPages"
+        class="px-4 py-2 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
+      >
+        Siguiente
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
 import axios from "axios";
-import { ref } from "vue";
+import { ref, computed } from "vue";
+
+let articulos = ref([]);
+let page = ref(1);
+const perPage = 8;
 
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
 };
-
-let articulos = ref(null);
 
 async function showArticles() {
   try {
@@ -157,6 +178,26 @@ const decrementQuantity = (id) => {
 const getQuantity = (id) => {
   return selectedQuantities.value[id] || 0;
 };
+
+function prevPage() {
+  if (page.value > 1) {
+    page.value--;
+  }
+}
+
+function nextPage() {
+  if (page.value < totalPages.value) {
+    page.value++;
+  }
+}
+
+const paginatedArticles = computed(() => {
+  const start = (page.value - 1) * perPage;
+  const end = start + perPage;
+  return articulos.value.slice(start, end);
+});
+
+const totalPages = computed(() => Math.ceil(articulos.value.length / perPage));
 
 showArticles();
 </script>
