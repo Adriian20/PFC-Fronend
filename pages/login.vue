@@ -8,7 +8,6 @@
           </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="loginUser" ref="loginForm" lazy-validation>
-              
               <v-text-field
                 v-model="email"
                 :rules="emailRules"

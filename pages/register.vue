@@ -5,7 +5,6 @@
     </v-card-title>
     <v-card-text>
       <v-form @submit.prevent="registerUser">
-        
         <v-text-field
           :rules="nombreRules"
           v-model="nombre"
