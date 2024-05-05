@@ -2,6 +2,17 @@
   <v-container fluid class="d-flex align-center justify-center">
     <v-row justify="center">
       <v-col cols="12" sm="10" md="8" lg="6">
+        <v-alert
+          v-if="successMessage"
+          v-model="successMessage"
+          timeout="2000"
+          color="success"
+          dense
+          class="alertEdit"
+        >
+          {{ successMessage }}
+        </v-alert>
+
         <v-card class="formulario" elevation="5" style="min-height: 400px">
           <v-card-title class="text-center">
             <h1 class="headline">INFORMACIÓN PERSONAL</h1>
@@ -52,20 +63,6 @@
               >
               </v-text-field>
 
-              <v-text-field
-                v-model="contrasenya"
-                :rules="contrasenyaRules"
-                label="Contraseña"
-                outlined
-                prepend-inner-icon="mdi-lock"
-                :append-inner-icon="showContrasenya ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="showContrasenya ? 'text' : 'password'"
-                @click:append-inner="showContrasenya = !showContrasenya"
-                required
-                dense
-              >
-              </v-text-field>
-
               <v-alert v-if="errorMessage" type="error" dense>
                 {{ errorMessage }}
               </v-alert>
@@ -76,9 +73,19 @@
                 color="primary"
                 class="white--text"
                 rounded
-                @click="editProfile"
-                >Editar perfil</v-btn
-              >
+                @click="editUser"
+                >Editar perfil
+              </v-btn>
+            </v-card-actions>
+
+            <v-card-actions class="btn">
+              <v-btn
+                color="primary"
+                class="white--text"
+                rounded
+                href="/change-password"
+                >Cambiar contraseña
+              </v-btn>
             </v-card-actions>
           </v-card-text>
           <v-divider></v-divider>
@@ -92,13 +99,17 @@
 import { ref } from "vue";
 import axios from "axios";
 
+const successMessage = ref(null);
 const nombre = ref(null);
 const apellidos = ref(null);
 const email = ref(null);
 const cuenta_bancaria = ref(null);
-const contrasenya = ref(null);
-const showContrasenya = ref(false);
 const errorMessage = ref(null);
+let token = null;
+
+if (process.client) {
+  token = localStorage.getItem("token");
+}
 
 const nombreRules = [
   (value) => !!value || "Requerido",
@@ -123,25 +134,11 @@ const cuentaBancariaRules = [
     "El número de cuenta debe tener el formato correcto (dos letras seguidas de 20 dígitos)",
 ];
 
-const contrasenyaRules = [
-  (value) => !!value || "La contraseña es requerida",
-  (value) => (value && value.length >= 5) || "Debe tener al menos 5 caracteres",
-  (value) =>
-    /^(?=.*[a-zA-Z])(?=.*\d).+$/.test(value) ||
-    "Debe contener al menos una letra y un número",
-];
-
 async function showUserInformation() {
-  const token = localStorage.getItem("token");
   try {
     const response = await axios.post(
       "http://localhost:8080/pfc/users/userInformation",
-      { token },
-      {
-        headers: {
-          Authorization: `Bearer: ${token}`,
-        },
-      }
+      { token }
     );
     nombre.value = response.data.nombre;
     apellidos.value = response.data.apellidos;
@@ -153,34 +150,36 @@ async function showUserInformation() {
   }
 }
 
-async function editProfile() {
-  const token = localStorage.getItem("token");
+async function editUser() {
   try {
     const userData = {
       nombre: nombre.value,
       apellidos: apellidos.value,
       email: email.value,
       cuenta_bancaria: cuenta_bancaria.value,
-      contrasenya: contrasenya.value,
+      token: token,
     };
 
-    const response = await axios.put(
-      "http://localhost:8080/pfc/users/editProfile",
-      userData,
-      {
-        headers: {
-          Authorization: `Bearer: ${token}`,
-        },
-      }
-    );
+    if (
+      !userData.nombre ||
+      !userData.apellidos ||
+      !userData.email ||
+      !userData.cuenta_bancaria
+    ) {
+      errorMessage.value = "Todos los campos son obligatorios";
+      return;
+    }
 
-    const updatedUserData = response.data;
-    
-    nombre.value = updatedUserData.nombre;
-    apellidos.value = updatedUserData.apellidos;
-    email.value = updatedUserData.email;
-    cuenta_bancaria.value = updatedUserData.cuenta_bancaria;
-    contrasenya.value = updatedUserData.contrasenya;
+    const response = await axios.put(
+      "http://localhost:8080/pfc/users/editUser",
+      userData
+    );
+    successMessage.value = "¡El usuario se ha editado correctamente!";
+    setTimeout(() => {
+      successMessage.value = null;
+      window.location.href = "/";
+    }, 2000);
+    return response.data;
   } catch (error) {
     errorMessage.value = "No se pudo editar el perfil";
     console.error("Error:", error);
@@ -208,5 +207,11 @@ showUserInformation();
 
 .v-btn {
   width: 100%;
+}
+
+.alertEdit { 
+  margin-bottom: 24px; 
+  text-align: center;
+  font-size: 18px;
 }
 </style>
