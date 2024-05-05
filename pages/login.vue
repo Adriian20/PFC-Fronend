@@ -8,6 +8,7 @@
           </v-card-title>
           <v-card-text>
             <v-form @submit.prevent="loginUser" ref="loginForm" lazy-validation>
+              
               <v-text-field
                 v-model="email"
                 :rules="emailRules"
@@ -16,7 +17,9 @@
                 prepend-inner-icon="mdi-account-circle"
                 required
                 dense
-              />
+              >
+              </v-text-field>
+
               <v-text-field
                 v-model="contrasenya"
                 :rules="contrasenyaRules"
@@ -28,7 +31,9 @@
                 @click:append-inner="showContrasenya = !showContrasenya"
                 required
                 dense
-              />
+              >
+              </v-text-field>
+
               <v-alert v-if="errorMessage" type="error" dense>
                 {{ errorMessage }}
               </v-alert>

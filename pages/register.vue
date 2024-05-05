@@ -5,13 +5,15 @@
     </v-card-title>
     <v-card-text>
       <v-form @submit.prevent="registerUser">
+        
         <v-text-field
           :rules="nombreRules"
           v-model="nombre"
           label="Nombre"
           outlined
           prepend-inner-icon="mdi-account"
-        />
+        >
+        </v-text-field>
 
         <v-text-field
           :rules="nombreRules"
@@ -19,7 +21,8 @@
           label="Apellidos"
           outlined
           prepend-inner-icon="mdi-account"
-        />
+        >
+        </v-text-field>
 
         <v-text-field
           :rules="emailRules"
@@ -27,7 +30,8 @@
           label="Email"
           outlined
           prepend-inner-icon="mdi-email"
-        />
+        >
+        </v-text-field>
 
         <v-text-field
           :rules="cuentaBancariaRules"
@@ -35,7 +39,8 @@
           label="Cuenta bancaria"
           outlined
           prepend-inner-icon="mdi-bank"
-        />
+        >
+        </v-text-field>
 
         <v-text-field
           :rules="contrasenyaRules"
@@ -46,7 +51,8 @@
           prepend-inner-icon="mdi-lock"
           :append-inner-icon="showContrasenya[0] ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append-inner="toggleShowContrasenya(0)"
-        />
+        >
+        </v-text-field>
 
         <v-text-field
           :rules="contrasenyaMatchRules"
@@ -57,7 +63,8 @@
           prepend-inner-icon="mdi-lock"
           :append-inner-icon="showContrasenya[1] ? 'mdi-eye' : 'mdi-eye-off'"
           @click:append-inner="toggleShowContrasenya(1)"
-        />
+        >
+        </v-text-field>
 
         <v-alert v-if="errorMessage" type="error" dense>
           {{ errorMessage }}
