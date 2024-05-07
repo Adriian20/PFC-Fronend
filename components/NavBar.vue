@@ -84,9 +84,9 @@ import { Bars3Icon, BellIcon, XMarkIcon, ShoppingCartIcon, UserIcon } from '@her
 import axios from 'axios';
 
 const navigation = [
-  { name: 'FUTBOLMANÍA VINTAGE', href: '/', current: true },
-  { name: 'Categorias', href: '/categories', current: false },
-  { name: 'Articulos', href: '/articles', current: false },
+  { name: 'Página de inicio', href: '/', current: true },
+  { name: 'Categorías', href: '/categories', current: false },
+  { name: 'Artículos', href: '/articles', current: false },
   { name: 'Visitas', href: '/visits', current: false },
 ]
 
