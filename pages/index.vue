@@ -1,11 +1,11 @@
 <template>
   <div>
-    <ShowArticles />
+    <HomePage />
   </div>
 </template>
 
 <script setup>
-import ShowArticles from '@/components/ShowArticles.vue';
+import HomePage from '~/components/HomePage.vue';
 </script>
 
 <style></style>
