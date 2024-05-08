@@ -10,10 +10,11 @@
             class="mb-2 rounded-lg"
             style="height: 600px; width: 100%"
           />
-          <!-- Superposición para el texto -->
           <div class="absolute inset-x-0 bottom-0 top-1/2">
             <div class="bg-gray-900 bg-opacity-60 transform -translate-y-1/2">
-              <h2 class="text-white text-2xl font-semibold py-2 text-center uppercase">
+              <h2
+                class="text-white text-2xl font-semibold py-2 text-center uppercase"
+              >
                 Artículos
               </h2>
             </div>
@@ -30,10 +31,11 @@
             class="mb-2 rounded-lg"
             style="height: 400px; width: 100%"
           />
-          <!-- Superposición para el texto -->
           <div class="absolute inset-x-0 bottom-0 top-1/2">
             <div class="bg-gray-900 bg-opacity-60 transform -translate-y-1/2">
-              <h2 class="text-white text-2xl font-semibold py-2 text-center uppercase">
+              <h2
+                class="text-white text-2xl font-semibold py-2 text-center uppercase"
+              >
                 Categorías
               </h2>
             </div>
@@ -50,7 +52,9 @@
           />
           <div class="absolute inset-x-0 bottom-0 top-1/2">
             <div class="bg-gray-900 bg-opacity-55 transform -translate-y-1/2">
-              <h2 class="text-white text-2xl font-semibold py-2 text-center uppercase">
+              <h2
+                class="text-white text-2xl font-semibold py-2 text-center uppercase"
+              >
                 Visitas
               </h2>
             </div>
@@ -58,9 +62,77 @@
         </a>
       </div>
     </div>
+    <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">Artículos Destacados</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
+      <div v-for="article in articulos" :key="article.id">
+        <a :href="'/seeArticle/' + article.id" class="block">
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <img
+              :src="getImageUrl(article.img)"
+              :alt="article.nombre"
+              class="w-full h-80 object-cover rounded-lg mb-4"
+            />
+            <h2 class="text-xl font-semibold mb-2">{{ article.nombre }}</h2>
+            <p class="text-gray-600">{{ article.marca }} {{ article.talla }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">Categorías Destacadas</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
+      <div v-for="category in categories" :key="category.id">
+        <a :href="'/categories/' + category.id" class="block">
+          <div class="bg-white rounded-lg shadow-lg p-6">
+            <img
+              :src="getImageUrl(category.img)"
+              :alt="category.nombre"
+              class="w-full h-80 object-cover rounded-lg mb-4"
+            />
+            <h2 class="text-xl font-semibold mb-2">{{ category.nombre }}</h2>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import axios from "axios";
+import { ref, computed } from "vue";
+
+let articulos = ref([]);
+let categories = ref([]);
+
+const getImageUrl = (imageName) => {
+  return `/images/${imageName}`;
+};
+
+async function showArticles() {
+  try {
+    const response = await axios.get(
+      "http://localhost:8080/pfc/articles/allArticles"
+    );
+    const sortedArticulos = response.data.sort((a, b) => a.stock - b.stock);
+    articulos.value = sortedArticulos.slice(0, 4);
+  } catch (error) {
+    console.error("Error fetching articles:", error);
+  }
+}
+
+async function showCategories() {
+  try {
+    const response = await axios.get(
+      "http://localhost:8080/pfc/categories/allCategories"
+    );
+    categories.value = response.data.slice(0, 4);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+  }
+}
+
+showArticles();
+showCategories();
+</script>
 
 <style></style>
