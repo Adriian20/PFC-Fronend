@@ -64,16 +64,16 @@
     </div>
     <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">Artículos Destacados</h2>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
-      <div v-for="article in articulos" :key="article.id">
-        <a :href="'/seeArticle/' + article.id" class="block">
+      <div v-for="articulo in articulos" :key="articulo.id">
+        <a :href="'/seeArticle/' + articulo.id" class="block">
           <div class="bg-white rounded-lg shadow-lg p-6">
             <img
-              :src="getImageUrl(article.img)"
-              :alt="article.nombre"
+              :src="getImageUrl(articulo.img)"
+              :alt="articulo.nombre"
               class="w-full h-80 object-cover rounded-lg mb-4"
             />
-            <h2 class="text-xl font-semibold mb-2">{{ article.nombre }}</h2>
-            <p class="text-gray-600">{{ article.marca }} {{ article.talla }}</p>
+            <h2 class="text-xl font-semibold mb-2">{{ articulo.nombre }}</h2>
+            <p class="text-gray-600">{{ articulo.marca }} {{ articulo.talla }}</p>
           </div>
         </a>
       </div>
