@@ -142,7 +142,7 @@ import { ref, computed } from "vue";
 
 let articulos = ref([]);
 let page = ref(1);
-const perPage = 8;
+const perPage = 12;
 
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
@@ -165,7 +165,9 @@ const incrementQuantity = (id) => {
   if (!selectedQuantities.value[id]) {
     selectedQuantities.value[id] = 1;
   } else {
-    selectedQuantities.value[id]++;
+    if (selectedQuantities.value[id] < articulos.value.find(item => item.id === id).stock) {
+      selectedQuantities.value[id]++;
+    }
   }
 };
 
