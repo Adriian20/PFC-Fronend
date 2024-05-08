@@ -81,15 +81,15 @@
 
     <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">Categorías Destacadas</h2>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
-      <div v-for="category in categories" :key="category.id">
-        <a :href="'/categories/' + category.id" class="block">
+      <div v-for="categoria in categorias" :key="categoria.id">
+        <a :href="'/categories/' + categoria.id" class="block">
           <div class="bg-white rounded-lg shadow-lg p-6">
             <img
-              :src="getImageUrl(category.img)"
-              :alt="category.nombre"
+              :src="getImageUrl(categoria.img)"
+              :alt="categoria.nombre"
               class="w-full h-80 object-cover rounded-lg mb-4"
             />
-            <h2 class="text-xl font-semibold mb-2">{{ category.nombre }}</h2>
+            <h2 class="text-xl font-semibold mb-2">{{ categoria.nombre }}</h2>
           </div>
         </a>
       </div>
@@ -102,7 +102,7 @@ import axios from "axios";
 import { ref, computed } from "vue";
 
 let articulos = ref([]);
-let categories = ref([]);
+let categorias = ref([]);
 
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
@@ -125,7 +125,7 @@ async function showCategories() {
     const response = await axios.get(
       "http://localhost:8080/pfc/categories/allCategories"
     );
-    categories.value = response.data.slice(0, 4);
+    categorias.value = response.data.slice(0, 4);
   } catch (error) {
     console.error("Error fetching categories:", error);
   }
