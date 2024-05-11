@@ -3,7 +3,7 @@
     <h1 class="text-4xl font-bold text-center mb-12 uppercase">Categorías</h1>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       <div v-for="category in categorias" :key="category.id" class="relative cursor-pointer">
-        <a :href="'/seeCategory/' + category.id" class="block relative">
+        <a :href="'/articlesByCategory/' + category.id" class="block relative">
           <img
             :src="getImageUrl(category.img)"
             :alt="category.nombre"
