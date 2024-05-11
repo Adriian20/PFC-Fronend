@@ -34,8 +34,7 @@
           </div>
         </a>
 
-        <div class="border-b border-black mt-6"></div>
-        <div class="p-4 flex flex-col items-center">
+        <div class="p-6 flex flex-col items-center">
           <p class="text-gray-400 font-light text-xs text-center">
             {{ articulo.marca }}
           </p>
@@ -93,7 +92,7 @@
           </div>
 
           <button
-            class="py-2 px-4 bg-blue-500 text-white rounded hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 mt-8 w-full flex items-center justify-center"
+            class="py-2 px-4 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded mt-8 w-full flex items-center justify-center"
           >
             Añadir al carrito
             <svg
@@ -114,24 +113,77 @@
         </div>
       </div>
     </div>
-    <div class="mt-4 mb-2 flex justify-center">
-      <button
-        @click="prevPage"
-        :disabled="page <= 1"
-        class="px-4 py-2 mr-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-      >
-        Anterior
-      </button>
+    <div class="absolute inset-x-0 bottom-0 p-4 bg-white shadow-top">
+      <div class="mt-4 mb-2 flex justify-center">
+        <button
+          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          @click="prevPage"
+          :disabled="page <= 1"
+          type="button"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            aria-hidden="true"
+            class="w-4 h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"
+            ></path>
+          </svg>
+          Anterior
+        </button>
 
-      <span class="text-lg font-bold">{{ page }}</span>
+        <div class="flex items-center gap-2">
+          <button
+            v-for="pageNumber in totalPages"
+            :key="pageNumber"
+            :class="{
+              'bg-gray-900 text-white': pageNumber === page,
+              'bg-white text-gray-900': pageNumber !== page,
+              'cursor-pointer': pageNumber !== page,
+            }"
+            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            @click="goToPage(pageNumber)"
+            type="button"
+          >
+            <span
+              class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+            >
+              {{ pageNumber }}
+            </span>
+          </button>
+        </div>
 
-      <button
-        @click="nextPage"
-        :disabled="page >= totalPages"
-        class="px-4 py-2 ml-2 bg-blue-500 text-white rounded hover:bg-blue-600 disabled:opacity-50"
-      >
-        Siguiente
-      </button>
+        <button
+          class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          @click="nextPage"
+          :disabled="page >= totalPages"
+          type="button"
+        >
+          Siguiente
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            aria-hidden="true"
+            class="w-4 h-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+            ></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -165,7 +217,10 @@ const incrementQuantity = (id) => {
   if (!selectedQuantities.value[id]) {
     selectedQuantities.value[id] = 1;
   } else {
-    if (selectedQuantities.value[id] < articulos.value.find(item => item.id === id).stock) {
+    if (
+      selectedQuantities.value[id] <
+      articulos.value.find((item) => item.id === id).stock
+    ) {
       selectedQuantities.value[id]++;
     }
   }
@@ -179,6 +234,12 @@ const decrementQuantity = (id) => {
 
 const getQuantity = (id) => {
   return selectedQuantities.value[id] || 0;
+};
+
+const goToPage = (pageNumber) => {
+  if (pageNumber >= 1 && pageNumber <= totalPages.value) {
+    page.value = pageNumber;
+  }
 };
 
 function prevPage() {
