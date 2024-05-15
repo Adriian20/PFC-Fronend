@@ -7098,10 +7098,10 @@ vue-virtual-scroller@2.0.0-beta.8:
     "@vue/server-renderer" "3.4.21"
     "@vue/shared" "3.4.21"
 
-vuetify@^3.6.5:
-  version "3.6.5"
-  resolved "https://registry.npmjs.org/vuetify/-/vuetify-3.6.5.tgz"
-  integrity sha512-YrHTM1vb7UllAtfH9tWfTo1wYMjyCSybu4WtXrfMRpMwAaZWgfrMmqD/4Tc+0KqDsDsYMXaYs0nJ6HtdMJZbyA==
+vuetify@^3.6.6:
+  version "3.6.6"
+  resolved "https://registry.npmjs.org/vuetify/-/vuetify-3.6.6.tgz"
+  integrity sha512-7RkL0kuLsVUbc0YCwhPhVq54gSFKt5xv+SOrF01dxwJz7Ke3tAbvO616WhhQIfS78h1q/Ev952WJj5jpsdK58g==
 
 watchpack@^2.4.1:
   version "2.4.1"
