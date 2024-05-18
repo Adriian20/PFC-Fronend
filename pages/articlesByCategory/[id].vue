@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      v-if="articulos.length > 0"
       class="flex-col justify-items-center px-16 md:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       <div
@@ -112,6 +113,11 @@
           </button>
         </div>
       </div>
+    </div>
+    <div v-else class="flex items-center justify-center mt-80">
+      <h1 class="text-4xl text-gray-800 font-bold">
+        ¡No hay artículos en esta categoría disponibles!
+      </h1>
     </div>
     <div class="absolute inset-x-0 bottom-0 p-4 bg-white shadow-top">
       <div class="mt-4 mb-2 flex justify-center">
