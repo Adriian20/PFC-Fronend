@@ -119,7 +119,10 @@
         ¡No hay artículos en esta categoría disponibles!
       </h1>
     </div>
-    <div class="absolute inset-x-0 bottom-0 p-4 bg-white shadow-top">
+    <div
+      v-if="totalPages > 1"
+      class="bottom-0 inset-x-0 p-4 bg-white shadow-top"
+    >
       <div class="mt-4 mb-2 flex justify-center">
         <button
           class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
