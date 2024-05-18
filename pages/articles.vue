@@ -1,5 +1,11 @@
 <template>
   <div>
+    <Filters
+      :categories="categories"
+      :brands="brands"
+      :sizes="sizes"
+      @apply-filters="applyFilters"
+    />
     <div
       class="flex-col justify-items-center px-16 md:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
@@ -19,30 +25,24 @@
           >
             <div>
               <span
-                class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none"
                 v-if="articulo.stock > 5"
+                class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none"
+                >Disponible</span
               >
-                Disponible
-              </span>
               <span
-                class="uppercase text-xs bg-red-50 p-0.5 border-red-500 border rounded text-red-700 font-medium select-none"
                 v-else
+                class="uppercase text-xs bg-red-50 p-0.5 border-red-500 border rounded text-red-700 font-medium select-none"
+                >Quedan pocos</span
               >
-                Quedan pocos
-              </span>
             </div>
           </div>
         </a>
-
         <div class="p-6 flex flex-col items-center">
           <p class="text-gray-400 font-light text-xs text-center">
             {{ articulo.marca }}
           </p>
-          <h1 class="text-gray-800 text-center mt-1">
-            {{ articulo.nombre }}
-          </h1>
+          <h1 class="text-gray-800 text-center mt-1">{{ articulo.nombre }}</h1>
           <p class="text-center text-gray-800 mt-1">{{ articulo.precio }}€</p>
-
           <div class="inline-flex items-center mt-2">
             <button
               class="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
@@ -90,7 +90,6 @@
               </svg>
             </button>
           </div>
-
           <button
             class="py-2 px-4 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded mt-8 w-full flex items-center justify-center"
           >
@@ -138,28 +137,20 @@
           </svg>
           Anterior
         </button>
-
-        <div class="flex items-center gap-2">
+        <div class="hidden md:flex flex-wrap justify-center gap-1">
           <button
             v-for="pageNumber in totalPages"
             :key="pageNumber"
             :class="{
               'bg-gray-900 text-white': pageNumber === page,
-              'bg-white text-gray-900': pageNumber !== page,
-              'cursor-pointer': pageNumber !== page,
+              'text-gray-900': pageNumber !== page,
             }"
-            class="relative h-10 max-h-[40px] w-10 max-w-[40px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase transition-all hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            class="flex items-center justify-center w-10 max-w-[40px] p-2.5 text-xs font-medium text-center uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10"
             @click="goToPage(pageNumber)"
-            type="button"
           >
-            <span
-              class="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-            >
-              {{ pageNumber }}
-            </span>
+            {{ pageNumber }}
           </button>
         </div>
-
         <button
           class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           @click="nextPage"
@@ -191,10 +182,15 @@
 <script setup>
 import axios from "axios";
 import { ref, computed } from "vue";
+import Filters from "@/components/Filters.vue";
 
 let articulos = ref([]);
+let filteredArticles = ref([]);
 let page = ref(1);
 const perPage = 12;
+const categories = ref([]);
+const brands = ref([]);
+const sizes = ref([]);
 
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
@@ -202,11 +198,33 @@ const getImageUrl = (imageName) => {
 
 async function showArticles() {
   try {
-    const response = await axios.get(
+    const articlesResponse = await axios.get(
       "http://localhost:8080/pfc/articles/allArticles"
     );
-    const sortedArticulos = response.data.sort((a, b) => b.stock - a.stock);
+    const categoriesResponse = await axios.get(
+      "http://localhost:8080/pfc/categories/allCategories"
+    );
+
+    const sortedArticulos = articlesResponse.data.sort(
+      (a, b) => b.stock - a.stock
+    );
     articulos.value = sortedArticulos;
+    filteredArticles.value = sortedArticulos;
+
+    categories.value = categoriesResponse.data.map((category) => ({
+      id: category.id,
+      nombre: category.nombre,
+    }));
+    brands.value = [
+      ...new Set(
+        articulos.value.map((item) => item.marca).filter((brand) => brand)
+      ),
+    ];
+    sizes.value = [
+      ...new Set(
+        articulos.value.map((item) => item.talla).filter((size) => size)
+      ),
+    ];
   } catch (error) {
     console.error("Error fetching articles:", error);
   }
@@ -254,13 +272,32 @@ function nextPage() {
   }
 }
 
+const applyFilters = (filters) => {
+  page.value = 1;
+  filteredArticles.value = articulos.value.filter((articulo) => {
+    const matchesSearch = articulo.nombre
+      .toLowerCase()
+      .includes(filters.search.toLowerCase());
+    const matchesCategory = filters.category
+      ? articulo.categoria === filters.category
+      : true;
+    const matchesBrand = filters.brand
+      ? articulo.marca === filters.brand
+      : true;
+    const matchesSize = filters.size ? articulo.talla === filters.size : true;
+    return matchesSearch && matchesCategory && matchesBrand && matchesSize;
+  });
+};
+
 const paginatedArticles = computed(() => {
   const start = (page.value - 1) * perPage;
   const end = start + perPage;
-  return articulos.value.slice(start, end);
+  return filteredArticles.value.slice(start, end);
 });
 
-const totalPages = computed(() => Math.ceil(articulos.value.length / perPage));
+const totalPages = computed(() =>
+  Math.ceil(filteredArticles.value.length / perPage)
+);
 
 showArticles();
 </script>
