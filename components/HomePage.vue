@@ -82,7 +82,7 @@
     <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">Categorías Destacadas</h2>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
       <div v-for="categoria in categorias" :key="categoria.id">
-        <a :href="'/categories/' + categoria.id" class="block">
+        <a :href="'/articlesByCategory/' + categoria.id" class="block">
           <div class="bg-white rounded-lg shadow-lg p-6">
             <img
               :src="getImageUrl(categoria.img)"
