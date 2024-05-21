@@ -62,7 +62,9 @@
         </a>
       </div>
     </div>
-    <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">Artículos Destacados</h2>
+    <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">
+      Artículos Destacados
+    </h2>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
       <div v-for="articulo in articulos" :key="articulo.id">
         <a :href="'/seeArticle/' + articulo.id" class="block">
@@ -73,13 +75,17 @@
               class="w-full h-80 object-cover rounded-lg mb-4"
             />
             <h2 class="text-xl font-semibold mb-2">{{ articulo.nombre }}</h2>
-            <p class="text-gray-600">{{ articulo.marca }} {{ articulo.talla }}</p>
+            <p class="text-gray-600">
+              {{ articulo.marca }} {{ articulo.talla }}
+            </p>
           </div>
         </a>
       </div>
     </div>
 
-    <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">Categorías Destacadas</h2>
+    <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">
+      Categorías Destacadas
+    </h2>
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mt-8">
       <div v-for="categoria in categorias" :key="categoria.id">
         <a :href="'/articlesByCategory/' + categoria.id" class="block">
@@ -117,6 +123,12 @@ async function showArticles() {
     articulos.value = sortedArticulos.slice(0, 4);
   } catch (error) {
     console.error("Error fetching articles:", error);
+    return {
+      error: {
+        message:
+          "Error al obtener los artículos. Por favor, inténtalo de nuevo más tarde.",
+      },
+    };
   }
 }
 
@@ -128,6 +140,12 @@ async function showCategories() {
     categorias.value = response.data.slice(0, 4);
   } catch (error) {
     console.error("Error fetching categories:", error);
+    return {
+      error: {
+        message:
+          "Error al obtener las categorías. Por favor, inténtalo de nuevo más tarde.",
+      },
+    };
   }
 }
 

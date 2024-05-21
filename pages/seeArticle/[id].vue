@@ -76,6 +76,12 @@ async function showArticles() {
     articulo.value = response.data;
   } catch (error) {
     console.error("Error fetching articles:", error);
+    return {
+      error: {
+        message:
+          "Error al obtener los artículos. Por favor, inténtalo de nuevo más tarde.",
+      },
+    };
   }
 }
 
