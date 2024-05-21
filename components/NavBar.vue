@@ -37,14 +37,16 @@
         <div
           class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
-          <button
-            type="button"
-            class="relative rounded-full bg-green-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-green-800"
-          >
-            <span class="absolute -inset-1.5" />
-            <span class="sr-only">Carrito de compras</span>
-            <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
+          <NuxtLink to="/shopping-cart">
+            <button
+              type="button"
+              class="relative rounded-full bg-green-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-green-800"
+            >
+              <span class="absolute -inset-1.5" />
+              <span class="sr-only">Carrito de compras</span>
+              <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
+            </button>
+          </NuxtLink>
 
           <!-- Profile dropdown -->
           <Menu as="div" class="relative ml-3">
