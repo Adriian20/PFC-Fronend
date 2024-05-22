@@ -3,6 +3,7 @@
     <div>
       <NavBar />
       <NuxtPage />
+      <Footer />
     </div>
   </v-app>
 </template>
