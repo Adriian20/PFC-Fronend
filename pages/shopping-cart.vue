@@ -77,6 +77,37 @@
   </div>
 </template>
 
-<script lang="ts" setup></script>
+<script setup>
+import { ref } from "vue";
+import axios from "axios";
+
+
+  // let articulos = ref([]);
+  // let selectedQuantities = ref({});
+  //
+  // const incrementQuantity = (id) => {
+  //   if (!selectedQuantities.value[id]) {
+  //     selectedQuantities.value[id] = 1;
+  //   } else {
+  //     if (
+  //       selectedQuantities.value[id] <
+  //       articulos.value.find((item) => item.id === id).stock
+  //     ) {
+  //       selectedQuantities.value[id]++;
+  //     }
+  //   }
+  // };
+  //
+  // const decrementQuantity = (id) => {
+  //   if (selectedQuantities.value[id] && selectedQuantities.value[id] > 0) {
+  //     selectedQuantities.value[id]--;
+  //   }
+  // };
+  //
+  // const getQuantity = (id) => {
+  //   return selectedQuantities.value[id] || 0;
+  // };
+  
+</script>
 
 <style></style>
