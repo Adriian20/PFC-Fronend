@@ -43,53 +43,6 @@
           </p>
           <h1 class="text-gray-800 text-center mt-1">{{ articulo.nombre }}</h1>
           <p class="text-center text-gray-800 mt-1">{{ articulo.precio }}€</p>
-          <div class="inline-flex items-center mt-2">
-            <button
-              class="bg-white rounded-l border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
-              @click="decrementQuantity(articulo.id)"
-              name="decrement"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M20 12H4"
-                />
-              </svg>
-            </button>
-            <div
-              class="bg-gray-100 border-t border-b border-gray-100 text-gray-600 hover:bg-gray-100 inline-flex items-center px-4 py-1 select-none"
-            >
-              {{ getQuantity(articulo.id) }}
-            </div>
-            <button
-              class="bg-white rounded-r border text-gray-600 hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 inline-flex items-center px-2 py-1 border-r border-gray-200"
-              @click="incrementQuantity(articulo.id)"
-              name="increment"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-            </button>
-          </div>
           <button
             class="py-2 px-4 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded mt-8 w-full flex items-center justify-center"
           >
@@ -112,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div class="absolute inset-x-0 bottom-0 p-4 bg-white shadow-top">
+    <div class="bottom-0 inset-x-0 p-4 bg-white shadow-top">
       <div class="mt-4 mb-2 flex justify-center">
         <button
           class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -227,32 +180,14 @@ async function showArticles() {
     ];
   } catch (error) {
     console.error("Error fetching articles:", error);
+    return {
+      error: {
+        message:
+          "Error al obtener los artículos. Por favor, inténtalo de nuevo más tarde.",
+      },
+    };
   }
 }
-
-let selectedQuantities = ref({});
-const incrementQuantity = (id) => {
-  if (!selectedQuantities.value[id]) {
-    selectedQuantities.value[id] = 1;
-  } else {
-    if (
-      selectedQuantities.value[id] <
-      articulos.value.find((item) => item.id === id).stock
-    ) {
-      selectedQuantities.value[id]++;
-    }
-  }
-};
-
-const decrementQuantity = (id) => {
-  if (selectedQuantities.value[id] && selectedQuantities.value[id] > 0) {
-    selectedQuantities.value[id]--;
-  }
-};
-
-const getQuantity = (id) => {
-  return selectedQuantities.value[id] || 0;
-};
 
 const goToPage = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= totalPages.value) {
