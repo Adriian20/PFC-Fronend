@@ -22,6 +22,7 @@
         </a>
       </div>
     </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
       <div class="relative cursor-pointer">
         <a href="/categories" class="block relative">
@@ -42,6 +43,7 @@
           </div>
         </a>
       </div>
+
       <div class="relative cursor-pointer">
         <a href="/visits" class="block relative">
           <img
@@ -62,6 +64,7 @@
         </a>
       </div>
     </div>
+
     <h2 class="text-3xl font-semibold mb-4 mt-24 text-center">
       Artículos Destacados
     </h2>
