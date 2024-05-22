@@ -5,7 +5,7 @@
     <div class="max-w-md text-center">
       <h1 class="text-4xl font-bold text-gray-900 mb-2">¡Oops!</h1>
       <p class="text-lg text-gray-300 mb-6">
-        {{"La página que buscas no se pudo encontrar." }}
+        {{ error.message || "La página que buscas no se pudo encontrar." }}
       </p>
       <div>
         <NuxtLink to="/" class="text-blue-300 hover:underline mr-4"
@@ -20,7 +20,7 @@
 </template>
 
 <script setup>
-defineProps(["error"]);
+let error = defineProps(["error"]);
 </script>
 
 <style scoped>
