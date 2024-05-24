@@ -12,26 +12,7 @@
         placeholder="Buscar por título..."
       />
     </div>
-    <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div>
-        <label for="category" class="block text-sm font-medium text-gray-700"
-          >Categoría</label
-        >
-        <select
-          v-model="filters.category"
-          id="category"
-          class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-        >
-          <option value="">Todas</option>
-          <option
-            v-for="category in filteredCategories"
-            :key="category.id"
-            :value="category.id"
-          >
-            {{ category.nombre }}
-          </option>
-        </select>
-      </div>
+    <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
         <label for="brand" class="block text-sm font-medium text-gray-700"
           >Marca</label
@@ -78,10 +59,6 @@
 import { ref, computed } from "vue";
 
 const props = defineProps({
-  categories: {
-    type: Array,
-    required: true,
-  },
   brands: {
     type: Array,
     required: true,
@@ -96,7 +73,6 @@ const emit = defineEmits(["apply-filters"]);
 
 const filters = ref({
   search: "",
-  category: "",
   brand: "",
   size: "",
 });
@@ -105,9 +81,6 @@ const applyFilters = () => {
   emit("apply-filters", filters.value);
 };
 
-const filteredCategories = computed(() =>
-  props.categories.filter((category) => category)
-);
 const filteredBrands = computed(() => props.brands.filter((brand) => brand));
 const filteredSizes = computed(() => props.sizes.filter((size) => size));
 </script>
