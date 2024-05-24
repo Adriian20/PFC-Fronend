@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto py-8">
     <h1 class="text-4xl font-bold text-center mb-12 uppercase">Categorías</h1>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
       <div
         v-for="category in categorias"
         :key="category.id"
