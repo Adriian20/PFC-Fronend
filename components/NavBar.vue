@@ -37,16 +37,66 @@
         <div
           class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
-          <NuxtLink to="/shopping-cart">
-            <button
-              type="button"
-              class="relative rounded-full bg-green-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-green-800"
+          <div
+            @mouseenter="showCartDropdown"
+            @mouseleave="hideCartDropdown"
+            class="relative"
+          >
+            <NuxtLink to="/shopping-cart">
+              <button
+                type="button"
+                class="relative rounded-full bg-green-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-green-800"
+              >
+                <span class="absolute -inset-1.5" />
+                <span class="sr-only">Carrito de compras</span>
+                <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
+                <!-- Badge -->
+                <span
+                  v-if="cartItemCount > 0"
+                  class="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center top-[4%] right-[2%] translate-x-2/4 -translate-y-2/4 bg-red-500 text-white min-w-[24px] min-h-[24px]"
+                >
+                  {{ cartItemCount }}
+                </span>
+              </button>
+            </NuxtLink>
+            <!-- Dropdown -->
+            <div
+              v-if="cartDropdownVisible"
+              class="absolute right-0 mt-2 w-72 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
             >
-              <span class="absolute -inset-1.5" />
-              <span class="sr-only">Carrito de compras</span>
-              <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
-            </button>
-          </NuxtLink>
+              <div class="p-4">
+                <h3 class="text-lg font-semibold">Resumen del Carrito</h3>
+                <div v-if="cartItems.length > 0">
+                  <div
+                    v-for="item in cartItems"
+                    :key="item.id"
+                    class="flex items-center justify-between py-2"
+                  >
+                    <div>
+                      <h4 class="text-sm font-medium">{{ item.nombre }}</h4>
+                      <p class="text-sm text-gray-500">
+                        Cantidad: {{ item.quantity }}
+                      </p>
+                    </div>
+                    <img
+                      :src="getImageUrl(item.img)"
+                      alt=""
+                      class="w-12 h-12 object-cover rounded-md"
+                    />
+                  </div>
+                  <NuxtLink
+                    to="/shopping-cart"
+                    class="block mt-4 text-center text-green-600 hover:underline"
+                  >
+                    Ver Carrito
+                  </NuxtLink>
+                </div>
+                <div v-else>
+                  <p class="text-sm text-gray-500">El carrito está vacío.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <!-- Profile dropdown -->
           <Menu as="div" class="relative ml-3">
@@ -156,6 +206,8 @@ import {
   UserIcon,
 } from "@heroicons/vue/24/outline";
 import axios from "axios";
+import { ref, computed } from "vue";
+import { useCartStore } from "../stores/cart";
 
 const navigation = [
   { name: "Página de inicio", href: "/", current: true },
@@ -171,13 +223,51 @@ const logout = async () => {
     const token = {
       token: localStorage.getItem("token"),
     };
-    const response = await axios.post(
-      "http://localhost:8080/pfc/users/logoutUser",
-      token
-    );
+    await axios.post("http://localhost:8080/pfc/users/logoutUser", token);
     localStorage.removeItem("token");
   } catch (error) {
     console.error("Error:", error);
   }
 };
+
+const cartStore = useCartStore();
+const cartItemCount = computed(() => cartStore.cartItemCount);
+const cartItems = computed(() => cartStore.cartItems);
+
+const cartDropdownVisible = ref(false);
+
+const showCartDropdown = () => {
+  cartDropdownVisible.value = true;
+};
+
+const hideCartDropdown = () => {
+  cartDropdownVisible.value = false;
+};
+
+const getImageUrl = (imageName) => {
+  return `/images/${imageName}`;
+};
 </script>
+
+<style>
+.cart-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-image {
+  width: 24px;
+  height: 24px;
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+</style>
