@@ -5,10 +5,10 @@ import "vue-toastification/dist/index.css";
 export default defineNuxtPlugin((nuxtApp) => {
   nuxtApp.vueApp.use(Toast, {
     transition: "Vue-Toastification__bounce",
-    maxToasts: 5,
+    maxToasts: 3,
     newestOnTop: true,
     position: "top-right",
-    timeout: 3000,
+    timeout: 2000,
     closeOnClick: true,
     pauseOnFocusLoss: false,
     pauseOnHover: false,
