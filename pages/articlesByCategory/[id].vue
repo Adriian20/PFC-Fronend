@@ -44,33 +44,35 @@
           </h1>
           <p class="text-center text-gray-800 mt-1">{{ articulo.precio }}€</p>
 
-          <button
-            class="py-2 px-4 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded mt-8 w-full flex items-center justify-center"
-          >
-            Añadir al carrito
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+          <div class="w-full mt-6">
+            <button
+              v-if="isLogged()"
+              class="mt-auto align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full"
+              type="button"
+              data-ripple-light="true"
+              title="Añadir al carrito"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-          </button>
+              Añadir al carrito
+            </button>
+            <button
+              v-else
+              class="mt-auto align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
+              type="button"
+              title="Necesitas iniciar sesión"
+            >
+              Inicia sesión para añadir al carrito
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
     <div v-else class="flex items-center justify-center mt-80">
       <h1 class="text-4xl text-gray-800 font-bold">
         ¡No hay artículos en esta categoría disponibles!
       </h1>
     </div>
+
     <div
       v-if="totalPages > 1"
       class="bottom-0 inset-x-0 p-4 bg-white shadow-top"
@@ -99,7 +101,6 @@
           </svg>
           Anterior
         </button>
-
         <div class="flex items-center gap-2">
           <button
             v-for="pageNumber in totalPages"
@@ -120,7 +121,6 @@
             </span>
           </button>
         </div>
-
         <button
           class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           @click="nextPage"
@@ -161,6 +161,9 @@ const perPage = 12;
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
 };
+
+const isLogged = () =>
+  typeof localStorage !== "undefined" && localStorage.getItem("token") !== null;
 
 async function showArticlesByCategory() {
   try {
