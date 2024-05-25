@@ -49,6 +49,7 @@
               type="button"
               data-ripple-light="true"
               title="Añadir al carrito"
+              @click="addToCart(articulo)"
             >
               Añadir al carrito
             </button>
@@ -136,8 +137,12 @@
 import axios from "axios";
 import { ref, computed } from "vue";
 import Filters from "@/components/Filters.vue";
+import { useCartStore } from "@/stores/cart";
+import { useToast } from "vue-toastification";
 
-let articulos = ref([]);
+const cartStore = useCartStore();
+const toast = useToast();
+const articulos = ref([]);
 let filteredArticles = ref([]);
 let page = ref(1);
 const perPage = 12;
@@ -183,6 +188,20 @@ async function showArticles() {
     };
   }
 }
+
+const addToCart = (articulo) => {
+  cartStore.addItem({
+    id: articulo.id,
+    nombre: articulo.nombre,
+    precio: articulo.precio,
+    img: articulo.img,
+    descripcion: articulo.descripcion,
+    talla: articulo.talla,
+    marca: articulo.marca,
+  });
+
+  toast.success("Artículo añadido al carrito");
+};
 
 const goToPage = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= totalPages.value) {

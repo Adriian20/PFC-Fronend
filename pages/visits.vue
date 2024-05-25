@@ -33,6 +33,9 @@
             {{ visit.hora_entrada }} - {{ visit.hora_salida }}
           </p>
           <p class="text-gray-700 text-base mb-4">{{ visit.comentarios }}</p>
+          <p class="text-gray-700 text-base mb-4">
+            <b>Precio: {{ visit.precio_entrada }}€</b>
+          </p>
           <div class="mb-4 mt-12 flex w-full items-center gap-3 md:w-1/2">
             <button
               class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-52"
@@ -40,6 +43,7 @@
               data-ripple-light="true"
               v-if="isLogged()"
               title="Añadir al carrito"
+              @click="addToCart(visit)"
             >
               Añadir al carrito
             </button>
@@ -63,8 +67,13 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
+import { useCartStore } from "@/stores/cart";
+import { useToast } from "vue-toastification";
 
+const cartStore = useCartStore();
+const toast = useToast();
 const visits = ref([]);
+
 const featuredImages = ref([
   { id: 1, url: "museo1.jpg", alt: "Imagen destacada 1" },
   { id: 2, url: "museo2.jpg", alt: "Imagen destacada 2" },
@@ -123,6 +132,21 @@ async function showVisits() {
     };
   }
 }
+
+const addToCart = (visit) => {
+  cartStore.addItem({
+    id: visit.id,
+    titulo: visit.titulo,
+    fecha_visita: visit.fecha_visita,
+    hora_entrada: visit.hora_entrada,
+    hora_salida: visit.hora_salida,
+    precio_entrada: visit.precio_entrada,
+    comentarios: visit.comentarios,
+    img: visit.img,
+  });
+
+  toast.success("Visita añadida al carrito");
+};
 
 showVisits();
 </script>
