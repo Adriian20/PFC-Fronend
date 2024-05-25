@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     "~/assets/css/tailwind.css",
     "vuetify/lib/styles/main.sass",
     "@mdi/font/css/materialdesignicons.min.css",
+    "vue-toastification/dist/index.css",
   ],
   build: {
     transpile: ["vuetify"],
@@ -24,5 +25,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ["@nuxt/image"],
+  modules: ["@pinia/nuxt"],
+  pinia: {
+    storesDirs: ["stores"],
+  },
+  plugins: ["~/plugins/vue-toastification.js"],
 });
