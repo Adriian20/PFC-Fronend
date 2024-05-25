@@ -1,11 +1,6 @@
 <template>
   <div>
-    <Filters
-      :categories="categories"
-      :brands="brands"
-      :sizes="sizes"
-      @apply-filters="applyFilters"
-    />
+    <Filters :brands="brands" :sizes="sizes" @apply-filters="applyFilters" />
     <div
       class="flex-col justify-items-center px-16 md:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
@@ -37,34 +32,39 @@
             </div>
           </div>
         </a>
+
         <div class="p-6 flex flex-col items-center">
           <p class="text-gray-400 font-light text-xs text-center">
             {{ articulo.marca }}
           </p>
-          <h1 class="text-gray-800 text-center mt-1">{{ articulo.nombre }}</h1>
+          <h1 class="text-gray-800 text-center mt-1">
+            {{ articulo.nombre }}
+          </h1>
           <p class="text-center text-gray-800 mt-1">{{ articulo.precio }}€</p>
-          <button
-            class="py-2 px-4 bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none rounded mt-8 w-full flex items-center justify-center"
-          >
-            Añadir al carrito
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6 ml-2"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+
+          <div class="w-full mt-6">
+            <button
+              v-if="isLogged()"
+              class="mt-auto align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full"
+              type="button"
+              data-ripple-light="true"
+              title="Añadir al carrito"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-              />
-            </svg>
-          </button>
+              Añadir al carrito
+            </button>
+            <button
+              v-else
+              class="mt-auto align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
+              type="button"
+              title="Necesitas iniciar sesión"
+            >
+              Inicia sesión para añadir al carrito
+            </button>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="bottom-0 inset-x-0 p-4 bg-white shadow-top">
       <div class="mt-4 mb-2 flex justify-center">
         <button
@@ -141,7 +141,6 @@ let articulos = ref([]);
 let filteredArticles = ref([]);
 let page = ref(1);
 const perPage = 12;
-const categories = ref([]);
 const brands = ref([]);
 const sizes = ref([]);
 
@@ -149,13 +148,13 @@ const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
 };
 
+const isLogged = () =>
+  typeof localStorage !== "undefined" && localStorage.getItem("token") !== null;
+
 async function showArticles() {
   try {
     const articlesResponse = await axios.get(
       "http://localhost:8080/pfc/articles/allArticles"
-    );
-    const categoriesResponse = await axios.get(
-      "http://localhost:8080/pfc/categories/allCategories"
     );
 
     const sortedArticulos = articlesResponse.data.sort(
@@ -164,10 +163,6 @@ async function showArticles() {
     articulos.value = sortedArticulos;
     filteredArticles.value = sortedArticulos;
 
-    categories.value = categoriesResponse.data.map((category) => ({
-      id: category.id,
-      nombre: category.nombre,
-    }));
     brands.value = [
       ...new Set(
         articulos.value.map((item) => item.marca).filter((brand) => brand)
@@ -213,14 +208,11 @@ const applyFilters = (filters) => {
     const matchesSearch = articulo.nombre
       .toLowerCase()
       .includes(filters.search.toLowerCase());
-    const matchesCategory = filters.category
-      ? articulo.categoria === filters.category
-      : true;
     const matchesBrand = filters.brand
       ? articulo.marca === filters.brand
       : true;
     const matchesSize = filters.size ? articulo.talla === filters.size : true;
-    return matchesSearch && matchesCategory && matchesBrand && matchesSize;
+    return matchesSearch && matchesBrand && matchesSize;
   });
 };
 
