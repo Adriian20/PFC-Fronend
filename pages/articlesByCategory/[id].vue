@@ -176,7 +176,7 @@ async function showArticlesByCategory() {
     const response = await axios.get(
       "http://localhost:8080/pfc/articles/findByCategoria/" + route.params.id
     );
-    const filteredArticles = articlesResponse.data.filter(
+    const filteredArticles = response.data.filter(
       (article) => article.stock > 0
     );
     articulos.value = filteredArticles;
