@@ -1,14 +1,20 @@
 <template>
   <div>
     <div class="container mx-auto px-4">
-      <h1 class="text-2xl font-semibold mb-4">Carrito de compras</h1>
+      <h1 class="text-3xl font-semibold mb-4">Carrito de compras</h1>
       <div class="flex flex-col md:flex-row gap-4">
         <div class="md:w-3/4">
-          <div class="bg-white rounded-lg shadow-md p-6 mb-4">
+          <div
+            class="bg-white rounded-lg shadow-md p-6 mb-4 cart-item"
+            v-for="item in cartItems"
+            :key="item.id"
+          >
             <table class="w-full">
               <thead>
                 <tr>
                   <th class="text-left font-semibold">Producto</th>
+                  <th class="text-left font-semibold">Marca</th>
+                  <th class="text-left font-semibold">Talla</th>
                   <th class="text-left font-semibold">Precio</th>
                   <th class="text-left font-semibold">Cantidad</th>
                   <th class="text-left font-semibold">Total</th>
@@ -20,53 +26,124 @@
                     <div class="flex items-center">
                       <img
                         class="h-16 w-16 mr-4"
-                        src="https://via.placeholder.com/150"
+                        :src="getImageUrl(item.img)"
                         alt="Imagen del producto"
                       />
-                      <span class="font-semibold">Nombre del producto</span>
+                      <span class="font-semibold">{{ item.nombre }}</span>
                     </div>
                   </td>
-                  <td class="py-4">$19.99</td>
+                  <td class="py-4">{{ item.marca }}</td>
+                  <td class="py-4">{{ item.talla }}</td>
+                  <td class="py-4">{{ item.precio }}€</td>
                   <td class="py-4">
                     <div class="flex items-center">
-                      <button class="border rounded-md py-2 px-4 mr-2">
+                      <button
+                        class="border rounded-md py-2 px-4 mr-2"
+                        @click="updateQuantity(item.id, item.quantity - 1)"
+                      >
                         -
                       </button>
-                      <span class="text-center w-8">1</span>
-                      <button class="border rounded-md py-2 px-4 ml-2">
+                      <span class="text-center w-8">{{ item.quantity }}</span>
+                      <button
+                        class="border rounded-md py-2 px-4 ml-2"
+                        @click="updateQuantity(item.id, item.quantity + 1)"
+                      >
                         +
                       </button>
                     </div>
                   </td>
-                  <td class="py-4">$19.99</td>
+                  <td class="py-4">
+                    {{ (item.precio * item.quantity).toFixed(2) }}€
+                  </td>
                 </tr>
-                <!-- More product rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <div
+            class="bg-white rounded-lg shadow-md p-6 mb-4 cart-item"
+            v-for="visit in cartVisits"
+            :key="visit.id"
+          >
+            <table class="w-full">
+              <thead>
+                <tr>
+                  <th class="text-left font-semibold">Visita</th>
+                  <th class="text-left font-semibold">Fecha</th>
+                  <th class="text-left font-semibold">Horario</th>
+                  <th class="text-left font-semibold">Precio</th>
+                  <th class="text-left font-semibold">Cantidad</th>
+                  <th class="text-left font-semibold">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="py-4">
+                    <div class="flex items-center">
+                      <img
+                        class="h-16 w-16 mr-4"
+                        :src="getImageUrl(visit.img)"
+                        alt="Imagen de la visita"
+                      />
+                      <span class="font-semibold">{{ visit.titulo }}</span>
+                    </div>
+                  </td>
+                  <td class="py-4">{{ visit.fecha_visita }}</td>
+                  <td class="py-4">
+                    {{ visit.hora_entrada }} - {{ visit.hora_salida }}
+                  </td>
+                  <td class="py-4">{{ visit.precio_entrada.toFixed(2) }}€</td>
+                  <td class="py-4">
+                    <div class="flex items-center">
+                      <button
+                        class="border rounded-md py-2 px-4 mr-2"
+                        @click="
+                          updateQuantity(visit.id, visit.quantity - 1, 'visit')
+                        "
+                      >
+                        -
+                      </button>
+                      <span class="text-center w-8">{{ visit.quantity }}</span>
+                      <button
+                        class="border rounded-md py-2 px-4 ml-2"
+                        @click="
+                          updateQuantity(visit.id, visit.quantity + 1, 'visit')
+                        "
+                      >
+                        +
+                      </button>
+                    </div>
+                  </td>
+                  <td class="py-4">
+                    {{ (visit.precio_entrada * visit.quantity).toFixed(2) }}€
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
         </div>
+
         <div class="md:w-1/4">
           <div class="bg-white rounded-lg shadow-md p-6">
             <h2 class="text-lg font-semibold mb-4">Resumen</h2>
             <div class="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span>$19.99</span>
-            </div>
-            <div class="flex justify-between mb-2">
-              <span>Impuestos</span>
-              <span>$1.99</span>
+              <span> {{ totalCartPrice.toFixed(2) }}€ </span>
             </div>
             <div class="flex justify-between mb-2">
               <span>Envío</span>
-              <span>$0.00</span>
+              <span>0.00€</span>
             </div>
             <hr class="my-2" />
             <div class="flex justify-between mb-2">
               <span class="font-semibold">Total</span>
-              <span class="font-semibold">$21.98</span>
+              <span class="font-semibold">
+                {{ totalCartPrice.toFixed(2) }}€
+              </span>
             </div>
             <button
               class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+              @click="buyProducts"
             >
               Realizar pedido
             </button>
@@ -78,36 +155,103 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import axios from "axios";
+import { useCartStore } from "@/stores/cart";
+import { useToast } from "vue-toastification";
+import { computed } from "vue";
 
+const toast = useToast();
+const cartStore = useCartStore();
+const cartItems = computed(() => cartStore.cartItems);
+const cartVisits = computed(() => cartStore.cartVisits);
 
-  // let articulos = ref([]);
-  // let selectedQuantities = ref({});
-  //
-  // const incrementQuantity = (id) => {
-  //   if (!selectedQuantities.value[id]) {
-  //     selectedQuantities.value[id] = 1;
-  //   } else {
-  //     if (
-  //       selectedQuantities.value[id] <
-  //       articulos.value.find((item) => item.id === id).stock
-  //     ) {
-  //       selectedQuantities.value[id]++;
-  //     }
-  //   }
-  // };
-  //
-  // const decrementQuantity = (id) => {
-  //   if (selectedQuantities.value[id] && selectedQuantities.value[id] > 0) {
-  //     selectedQuantities.value[id]--;
-  //   }
-  // };
-  //
-  // const getQuantity = (id) => {
-  //   return selectedQuantities.value[id] || 0;
-  // };
-  
+const getImageUrl = (imageName) => {
+  return `/images/${imageName}`;
+};
+
+const updateQuantity = (itemId, quantity, type = "item") => {
+  if (type === "item") {
+    if (quantity > 0) {
+      cartStore.updateItemQuantity(itemId, quantity);
+    } else {
+      cartStore.removeItem(itemId);
+    }
+  } else if (type === "visit") {
+    if (quantity > 0) {
+      cartStore.updateVisitQuantity(itemId, quantity);
+    } else {
+      cartStore.removeVisit(itemId);
+    }
+  }
+};
+
+const removeFromCart = (itemId, type = "item") => {
+  if (type === "item") {
+    cartStore.removeItem(itemId);
+  } else if (type === "visit") {
+    cartStore.removeVisit(itemId);
+  }
+};
+
+const clearCart = () => {
+  cartStore.clearCart();
+};
+
+const totalCartPrice = computed(() => {
+  return (
+    cartItems.value.reduce(
+      (total, item) => total + item.precio * item.quantity,
+      0
+    ) +
+    cartVisits.value.reduce(
+      (total, visit) => total + visit.precio_entrada * visit.quantity,
+      0
+    )
+  );
+});
+
+async function buyProducts() {
+  const user = localStorage.getItem("id");
+
+  const articulos = {};
+  cartItems.value.forEach((item) => {
+    articulos[item.id] = item.quantity;
+  });
+
+  const visitas = {};
+  cartVisits.value.forEach((visit) => {
+    visitas[visit.id] = visit.quantity;
+  });
+
+  try {
+    if (Object.keys(articulos).length > 0) {
+      await axios.post(
+        `http://localhost:8080/pfc/users/${user}/buy-articles`,
+        articulos
+      );
+    }
+
+    if (Object.keys(visitas).length > 0) {
+      await axios.post(
+        `http://localhost:8080/pfc/users/${user}/buy-visits`,
+        visitas
+      );
+    }
+
+    toast.success("Se ha realizado correctamente el pedido");
+    clearCart();
+  } catch (error) {
+    console.error("Error:", error);
+    toast.error("Hubo un problema al realizar el pedido");
+  }
+}
 </script>
 
-<style></style>
+<style>
+.shopping-cart {
+  padding: 16px;
+}
+.cart-item {
+  margin-bottom: 16px;
+}
+</style>
