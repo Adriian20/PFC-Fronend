@@ -159,6 +159,7 @@ async function registerUser() {
       userData
     );
     localStorage.setItem("token", response.data.token);
+    localStorage.setItem("id", response.data.id);
     window.location.href = "/";
   } catch (error) {
     errorMessage.value = "El email o la contraseña son incorrectos";
