@@ -106,7 +106,8 @@ const addToCart = () => {
     precio: articulo.value.precio,
     img: articulo.value.img,
     descripcion: articulo.value.descripcion,
-    talla: articulo.value.talla,
+    talla: articulo.value.talla || "Talla Única",
+    genero: articulo.value.genero,
     marca: articulo.value.marca,
   });
 

@@ -70,7 +70,7 @@
 
     <div v-else class="flex items-center justify-center mt-80">
       <h1 class="text-4xl text-gray-800 font-bold">
-        ¡No hay artículos en esta categoría disponibles!
+        ¡No hay artículos disponibles en esta categoría!
       </h1>
     </div>
 
@@ -195,7 +195,8 @@ const addToCart = (articulo) => {
     precio: articulo.precio,
     img: articulo.img,
     descripcion: articulo.descripcion,
-    talla: articulo.talla,
+    talla: articulo.value.talla || "Talla Única",
+    genero: articulo.value.genero,
     marca: articulo.marca,
   });
 
