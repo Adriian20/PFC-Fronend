@@ -206,21 +206,31 @@ const addToCart = (articulo) => {
   toast.success("Artículo añadido al carrito");
 };
 
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+};
+
 const goToPage = (pageNumber) => {
   if (pageNumber >= 1 && pageNumber <= totalPages.value) {
     page.value = pageNumber;
+    scrollToTop();
   }
 };
 
 function prevPage() {
   if (page.value > 1) {
     page.value--;
+    scrollToTop();
   }
 }
 
 function nextPage() {
   if (page.value < totalPages.value) {
     page.value++;
+    scrollToTop();
   }
 }
 
