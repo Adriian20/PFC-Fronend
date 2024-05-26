@@ -134,7 +134,7 @@ async function showVisits() {
 }
 
 const addToCart = (visit) => {
-  cartStore.addItem({
+  cartStore.addVisit({
     id: visit.id,
     titulo: visit.titulo,
     fecha_visita: visit.fecha_visita,
