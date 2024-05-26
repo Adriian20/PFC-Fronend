@@ -34,7 +34,19 @@
           v-else
           class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
         >
-          Talla: Unisex
+          Talla: Única
+        </p>
+        <p
+          v-if="articulo.genero"
+          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+        >
+          Genero: {{ articulo.genero }}
+        </p>
+        <p
+          v-else
+          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+        >
+          Genero: Unisex
         </p>
         <p
           v-if="articulo.marca"
