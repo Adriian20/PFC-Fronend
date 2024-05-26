@@ -18,6 +18,7 @@
                   <th class="text-left font-semibold">Precio</th>
                   <th class="text-left font-semibold">Cantidad</th>
                   <th class="text-left font-semibold">Total</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -39,14 +40,19 @@
                     <div class="flex items-center">
                       <button
                         class="border rounded-md py-2 px-4 mr-2"
-                        @click="updateQuantity(item.id, item.quantity - 1)"
+                        @click="
+                          updateQuantity(item.id, item.quantity - 1, 'item')
+                        "
+                        :disabled="item.quantity <= 1"
                       >
                         -
                       </button>
                       <span class="text-center w-8">{{ item.quantity }}</span>
                       <button
                         class="border rounded-md py-2 px-4 ml-2"
-                        @click="updateQuantity(item.id, item.quantity + 1)"
+                        @click="
+                          updateQuantity(item.id, item.quantity + 1, 'item')
+                        "
                       >
                         +
                       </button>
@@ -54,6 +60,14 @@
                   </td>
                   <td class="py-4">
                     {{ (item.precio * item.quantity).toFixed(2) }}€
+                  </td>
+                  <td class="py-4">
+                    <button
+                      class="text-red-500"
+                      @click="removeFromCart(item.id, 'item')"
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -74,6 +88,7 @@
                   <th class="text-left font-semibold">Precio</th>
                   <th class="text-left font-semibold">Cantidad</th>
                   <th class="text-left font-semibold">Total</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -100,6 +115,7 @@
                         @click="
                           updateQuantity(visit.id, visit.quantity - 1, 'visit')
                         "
+                        :disabled="visit.quantity <= 1"
                       >
                         -
                       </button>
@@ -117,6 +133,14 @@
                   <td class="py-4">
                     {{ (visit.precio_entrada * visit.quantity).toFixed(2) }}€
                   </td>
+                  <td class="py-4">
+                    <button
+                      class="text-red-500"
+                      @click="removeFromCart(visit.id, 'visit')"
+                    >
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -128,17 +152,17 @@
             <h2 class="text-lg font-semibold mb-4">Resumen</h2>
             <div class="flex justify-between mb-2">
               <span>Subtotal</span>
-              <span> {{ totalCartPrice.toFixed(2) }}€ </span>
+              <span>{{ totalCartPrice.toFixed(2) }}€</span>
             </div>
             <div class="flex justify-between mb-2">
               <span>Envío</span>
-              <span>0.00€</span>
+              <span>{{ shippingCost.toFixed(2) }}€</span>
             </div>
             <hr class="my-2" />
             <div class="flex justify-between mb-2">
               <span class="font-semibold">Total</span>
               <span class="font-semibold">
-                {{ totalCartPrice.toFixed(2) }}€
+                {{ (totalCartPrice + shippingCost).toFixed(2) }}€
               </span>
             </div>
             <button
@@ -159,6 +183,7 @@ import axios from "axios";
 import { useCartStore } from "@/stores/cart";
 import { useToast } from "vue-toastification";
 import { computed } from "vue";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 const toast = useToast();
 const cartStore = useCartStore();
@@ -171,16 +196,12 @@ const getImageUrl = (imageName) => {
 
 const updateQuantity = (itemId, quantity, type = "item") => {
   if (type === "item") {
-    if (quantity > 0) {
+    if (quantity >= 1) {
       cartStore.updateItemQuantity(itemId, quantity);
-    } else {
-      cartStore.removeItem(itemId);
     }
   } else if (type === "visit") {
-    if (quantity > 0) {
+    if (quantity >= 1) {
       cartStore.updateVisitQuantity(itemId, quantity);
-    } else {
-      cartStore.removeVisit(itemId);
     }
   }
 };
@@ -208,6 +229,14 @@ const totalCartPrice = computed(() => {
       0
     )
   );
+});
+
+const shippingCost = computed(() => {
+  const totalItems = cartItems.value.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+  return totalItems < 3 ? 4.99 : 0;
 });
 
 async function buyProducts() {
