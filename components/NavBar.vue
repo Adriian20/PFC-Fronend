@@ -225,6 +225,7 @@ const logout = async () => {
     };
     await axios.post("http://localhost:8080/pfc/users/logoutUser", token);
     localStorage.removeItem("token");
+    localStorage.removeItem("id");
   } catch (error) {
     console.error("Error:", error);
   }
