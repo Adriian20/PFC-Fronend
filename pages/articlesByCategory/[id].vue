@@ -176,7 +176,10 @@ async function showArticlesByCategory() {
     const response = await axios.get(
       "http://localhost:8080/pfc/articles/findByCategoria/" + route.params.id
     );
-    articulos.value = response.data;
+    const filteredArticles = articlesResponse.data.filter(
+      (article) => article.stock > 0
+    );
+    articulos.value = filteredArticles;
   } catch (error) {
     console.error("Error fetching articles:", error);
     return {

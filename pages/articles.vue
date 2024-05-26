@@ -162,9 +162,9 @@ async function showArticles() {
       "http://localhost:8080/pfc/articles/allArticles"
     );
 
-    const sortedArticulos = articlesResponse.data.sort(
-      (a, b) => b.stock - a.stock
-    );
+    const sortedArticulos = articlesResponse.data
+      .filter((article) => article.stock > 0)
+      .sort((a, b) => b.stock - a.stock);
     articulos.value = sortedArticulos;
     filteredArticles.value = sortedArticulos;
 
