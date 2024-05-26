@@ -167,9 +167,19 @@
             </div>
             <button
               class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
+              v-if="cartItems.length > 0 || cartVisits.length > 0"
               @click="buyProducts"
             >
               Realizar pedido
+            </button>
+            <button
+             class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
+              type="button"
+              title="Añade algun producto para poder comprar"
+              :disabled="cartItems.length === 0 && cartVisits.length === 0"
+              v-else
+            >
+              No hay elementos en tu carrito
             </button>
           </div>
         </div>
@@ -236,7 +246,7 @@ const shippingCost = computed(() => {
     (total, item) => total + item.quantity,
     0
   );
-  return totalItems < 3 ? 4.99 : 0;
+  return totalItems === 0 ? 0 : totalItems < 3 ? 4.99 : 0;
 });
 
 async function buyProducts() {
