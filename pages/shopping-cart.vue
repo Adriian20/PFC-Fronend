@@ -173,7 +173,7 @@
               Realizar pedido
             </button>
             <button
-             class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
+              class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
               type="button"
               title="Añade algun producto para poder comprar"
               :disabled="cartItems.length === 0 && cartVisits.length === 0"
@@ -192,13 +192,14 @@
 import axios from "axios";
 import { useCartStore } from "@/stores/cart";
 import { useToast } from "vue-toastification";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 const toast = useToast();
 const cartStore = useCartStore();
 const cartItems = computed(() => cartStore.cartItems);
 const cartVisits = computed(() => cartStore.cartVisits);
+const isLoading = ref(false);
 
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
@@ -226,6 +227,7 @@ const removeFromCart = (itemId, type = "item") => {
 
 const clearCart = () => {
   cartStore.clearCart();
+  toast.success("El carrito ha sido limpiado con éxito");
 };
 
 const totalCartPrice = computed(() => {
@@ -262,6 +264,8 @@ async function buyProducts() {
     visitas[visit.id] = visit.quantity;
   });
 
+  isLoading.value = true;
+
   try {
     if (Object.keys(articulos).length > 0) {
       await axios.post(
@@ -280,8 +284,20 @@ async function buyProducts() {
     toast.success("Se ha realizado correctamente el pedido");
     clearCart();
   } catch (error) {
+    if (!error.response) {
+      toast.error("Error de red. Por favor, verifica tu conexión a internet.");
+    } else if (error.response.status >= 500) {
+      toast.error(
+        "Error del servidor. Por favor, inténtalo de nuevo más tarde."
+      );
+    } else if (error.response.status >= 400) {
+      toast.error(`Error: ${error.response.data.message || "Algo salió mal"}`);
+    } else {
+      toast.error("Hubo un problema al realizar el pedido.");
+    }
     console.error("Error:", error);
-    toast.error("Hubo un problema al realizar el pedido");
+  } finally {
+    isLoading.value = false;
   }
 }
 </script>
