@@ -25,7 +25,14 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-  modules: ["@pinia/nuxt"],
+  modules: [
+    [
+      "@pinia/nuxt",
+      {
+        autoImports: ["defineStore", "acceptHMRUpdate", "mapActions"],
+      },
+    ],
+  ],
   pinia: {
     storesDirs: ["stores"],
   },
