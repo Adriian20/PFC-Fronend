@@ -227,7 +227,6 @@ const removeFromCart = (itemId, type = "item") => {
 
 const clearCart = () => {
   cartStore.clearCart();
-  toast.success("El carrito ha sido limpiado con éxito");
 };
 
 const totalCartPrice = computed(() => {
