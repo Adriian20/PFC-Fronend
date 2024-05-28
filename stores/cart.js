@@ -2,12 +2,8 @@ import { defineStore } from 'pinia';
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
-        items: (typeof window !== 'undefined' && localStorage.getItem('cartItems'))
-            ? JSON.parse(localStorage.getItem('cartItems'))
-            : [],
-        visits: (typeof window !== 'undefined' && localStorage.getItem('cartVisits'))
-            ? JSON.parse(localStorage.getItem('cartVisits'))
-            : []
+        items: [],
+        visits: []
     }),
     actions: {
         initializeCart() {
@@ -15,10 +11,18 @@ export const useCartStore = defineStore('cart', {
                 const storedItems = localStorage.getItem('cartItems');
                 const storedVisits = localStorage.getItem('cartVisits');
                 if (storedItems) {
-                    this.items = JSON.parse(storedItems);
+                    try {
+                        this.items = JSON.parse(storedItems);
+                    } catch (e) {
+                        localStorage.removeItem('cartItems');
+                    }
                 }
                 if (storedVisits) {
-                    this.visits = JSON.parse(storedVisits);
+                    try {
+                        this.visits = JSON.parse(storedVisits);
+                    } catch (e) {
+                        localStorage.removeItem('cartVisits');
+                    }
                 }
             }
         },
@@ -81,6 +85,16 @@ export const useCartStore = defineStore('cart', {
     getters: {
         cartItems: (state) => state.items,
         cartVisits: (state) => state.visits,
-        cartItemCount: (state) => state.items.length + state.visits.length
+        cartItemCount: (state) => state.items.length + state.visits.length,
+        totalCartPrice: (state) => {
+            return (
+                state.items.reduce((total, item) => total + item.precio * item.quantity, 0) +
+                state.visits.reduce((total, visit) => total + visit.precio_entrada * visit.quantity, 0)
+            );
+        },
+        shippingCost: (state) => {
+            const totalItems = state.items.reduce((total, item) => total + item.quantity, 0);
+            return totalItems === 0 ? 0 : totalItems < 3 ? 4.99 : 0;
+        }
     }
 });

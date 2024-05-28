@@ -192,13 +192,15 @@
 import axios from "axios";
 import { useCartStore } from "@/stores/cart";
 import { useToast } from "vue-toastification";
-import { computed, ref } from "vue";
+import { computed, ref, onMounted } from "vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 const toast = useToast();
 const cartStore = useCartStore();
 const cartItems = computed(() => cartStore.cartItems);
 const cartVisits = computed(() => cartStore.cartVisits);
+const totalCartPrice = computed(() => cartStore.totalCartPrice);
+const shippingCost = computed(() => cartStore.shippingCost);
 const isLoading = ref(false);
 
 const getImageUrl = (imageName) => {
@@ -228,27 +230,6 @@ const removeFromCart = (itemId, type = "item") => {
 const clearCart = () => {
   cartStore.clearCart();
 };
-
-const totalCartPrice = computed(() => {
-  return (
-    cartItems.value.reduce(
-      (total, item) => total + item.precio * item.quantity,
-      0
-    ) +
-    cartVisits.value.reduce(
-      (total, visit) => total + visit.precio_entrada * visit.quantity,
-      0
-    )
-  );
-});
-
-const shippingCost = computed(() => {
-  const totalItems = cartItems.value.reduce(
-    (total, item) => total + item.quantity,
-    0
-  );
-  return totalItems === 0 ? 0 : totalItems < 3 ? 4.99 : 0;
-});
 
 async function buyProducts() {
   const user = localStorage.getItem("id");
@@ -299,6 +280,10 @@ async function buyProducts() {
     isLoading.value = false;
   }
 }
+
+onMounted(() => {
+  cartStore.initializeCart();
+});
 </script>
 
 <style>
