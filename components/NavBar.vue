@@ -181,7 +181,8 @@
             'block rounded-md px-3 py-2 text-base font-medium',
           ]"
           :aria-current="item.current ? 'page' : undefined"
-          >{{ item.name }}
+        >
+          {{ item.name }}
         </DisclosureButton>
       </div>
     </DisclosurePanel>
@@ -207,7 +208,7 @@ import {
 } from "@heroicons/vue/24/outline";
 import axios from "axios";
 import { ref, computed } from "vue";
-import { useCartStore } from "../stores/cart";
+import { useCartStore } from "@/stores/cart";
 
 const navigation = [
   { name: "Página de inicio", href: "/", current: true },
@@ -248,6 +249,10 @@ const hideCartDropdown = () => {
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
 };
+
+onMounted(() => {
+  cartStore.initializeCart();
+});
 </script>
 
 <style>
