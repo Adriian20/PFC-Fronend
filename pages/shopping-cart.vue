@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div class="container mx-auto px-4">
+    <div class="container mx-auto px-2">
       <h1 class="text-3xl font-semibold mb-4">Carrito de compras</h1>
       <div class="flex flex-col md:flex-row gap-4">
-        <div class="md:w-3/4">
+        <div class="lg:w-3/4 xl:w-11/12">
           <div
-            class="bg-white rounded-lg shadow-md p-6 mb-4 cart-item"
+            class="bg-white rounded-lg shadow-md p-2 mb-4 cart-item"
             v-for="item in cartItems"
             :key="item.id"
           >
@@ -75,7 +75,7 @@
           </div>
 
           <div
-            class="bg-white rounded-lg shadow-md p-6 mb-4 cart-item"
+            class="bg-white rounded-lg shadow-md p-2 mb-4 cart-item"
             v-for="visit in cartVisits"
             :key="visit.id"
           >
