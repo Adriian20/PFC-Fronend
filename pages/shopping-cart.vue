@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container mx-auto px-2">
+    <div class="container mx-auto">
       <h1 class="text-3xl font-semibold mb-4">Carrito de compras</h1>
       <div class="flex flex-col md:flex-row gap-4">
         <div class="lg:w-3/4 xl:w-11/12">
@@ -150,24 +150,26 @@
         <div class="md:w-1/4">
           <div class="bg-white rounded-lg shadow-md p-6">
             <h2 class="text-lg font-semibold mb-4">Resumen</h2>
-            <div class="flex justify-between mb-2">
+            <div class="flex justify-between mb-4">
               <span>Subtotal</span>
               <span>{{ totalCartPrice.toFixed(2) }}€</span>
             </div>
-            <div class="flex justify-between mb-2">
+            <div class="flex justify-between mb-4">
               <span>Envío</span>
               <span>{{ shippingCost.toFixed(2) }}€</span>
             </div>
             <hr class="my-2" />
-            <div class="flex justify-between mb-2">
+            <div class="flex justify-between mb-4">
               <span class="font-semibold">Total</span>
               <span class="font-semibold">
                 {{ (totalCartPrice + shippingCost).toFixed(2) }}€
               </span>
             </div>
             <button
-              class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
-              v-if="isLogged() && (cartItems.length > 0 || cartVisits.length > 0)"
+              class="bg-blue-500 text-white py-3 px-6 rounded-lg mt-4 w-full"
+              v-if="
+                isLogged() && (cartItems.length > 0 || cartVisits.length > 0)
+              "
               @click="buyProducts"
             >
               Realizar pedido
@@ -210,23 +212,46 @@ const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
 };
 
-const updateQuantity = (itemId, quantity, type = "item") => {
+const getStockForItem = async (itemId) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/pfc/articles/${itemId}/showStock`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el stock del artículo:", error);
+    return 0;
+  }
+};
+
+// Función para obtener el stock de una visita dado su ID
+const getStockForVisit = async (visitId) => {
+  try {
+    const response = await axios.get(`http://localhost:8080/pfc/visits/${visitId}/showStockEntradas`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el stock de la visita:", error);
+    return 0;
+  }
+};
+
+const updateQuantity = async (id, quantity, type = "item") => {
   if (type === "item") {
-    if (quantity >= 1) {
-      cartStore.updateItemQuantity(itemId, quantity);
+    const articleStock = await getStockForItem(id);
+    if (quantity >= 1 && quantity <= articleStock) {
+      cartStore.updateItemQuantity(id, quantity);
     }
   } else if (type === "visit") {
-    if (quantity >= 1) {
-      cartStore.updateVisitQuantity(itemId, quantity);
+    const visitStock = await getStockForVisit(id);
+    if (quantity >= 1 && quantity <= visitStock) {
+      cartStore.updateVisitQuantity(id, quantity);
     }
   }
 };
 
-const removeFromCart = (itemId, type = "item") => {
+const removeFromCart = (id, type = "item") => {
   if (type === "item") {
-    cartStore.removeItem(itemId);
+    cartStore.removeItem(id);
   } else if (type === "visit") {
-    cartStore.removeVisit(itemId);
+    cartStore.removeVisit(id);
   }
 };
 
