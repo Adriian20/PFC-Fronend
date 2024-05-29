@@ -126,8 +126,6 @@ const addToCart = () => {
     genero: articulo.value.genero,
     marca: articulo.value.marca,
   });
-
-  toast.success("Artículo añadido al carrito");
 };
 
 onMounted(() => {

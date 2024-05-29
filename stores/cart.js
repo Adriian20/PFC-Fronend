@@ -1,4 +1,6 @@
 import { defineStore } from 'pinia';
+import { useToast } from "vue-toastification";
+const toast = useToast();
 
 export const useCartStore = defineStore('cart', {
     state: () => ({
@@ -29,18 +31,22 @@ export const useCartStore = defineStore('cart', {
         addItem(item) {
             const existingItem = this.items.find(i => i.id === item.id);
             if (existingItem) {
-                existingItem.quantity += 1;
+                toast.warning("El artículo ya existe en el carrito");
+                return;
             } else {
                 this.items.push({ ...item, quantity: 1 });
+                toast.success("Artículo añadido al carrito");
             }
             this.saveToLocalStorage();
         },
         addVisit(visit) {
             const existingVisit = this.visits.find(v => v.id === visit.id);
             if (existingVisit) {
-                existingVisit.quantity += 1;
+                toast.warning("La visita ya existe en el carrito");
+                return;
             } else {
                 this.visits.push({ ...visit, quantity: 1 });
+                toast.success("Visita añadida al carrito");
             }
             this.saveToLocalStorage();
         },

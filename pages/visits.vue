@@ -146,8 +146,6 @@ const addToCart = (visit) => {
     comentarios: visit.comentarios,
     img: visit.img,
   });
-
-  toast.success("Visita añadida al carrito");
 };
 
 showVisits();

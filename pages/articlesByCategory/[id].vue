@@ -202,8 +202,6 @@ const addToCart = (articulo) => {
     genero: articulo.genero,
     marca: articulo.marca,
   });
-
-  toast.success("Artículo añadido al carrito");
 };
 
 const scrollToTop = () => {
