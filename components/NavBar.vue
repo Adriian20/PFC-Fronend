@@ -217,7 +217,8 @@ const navigation = [
   { name: "Visitas", href: "/visits", current: false },
 ];
 
-const isLogged = () => localStorage.getItem("token") !== null;
+const isLogged = () =>
+  typeof localStorage !== "undefined" && localStorage.getItem("token") !== null;
 
 const logout = async () => {
   try {
