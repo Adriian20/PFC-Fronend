@@ -5,7 +5,7 @@
       class="flex-col justify-items-center px-16 md:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       <div
-        class="w-full bg-white shadow rounded"
+        class="w-full bg-white shadow rounded flex flex-col justify-between"
         v-for="articulo in paginatedArticles"
         :key="articulo.id"
       >
@@ -33,7 +33,7 @@
           </div>
         </a>
 
-        <div class="p-6 flex flex-col items-center">
+        <div class="p-6 flex flex-col justify-between ">
           <p class="text-gray-400 font-light text-xs text-center">
             {{ articulo.marca }}
           </p>
@@ -42,10 +42,10 @@
           </h1>
           <p class="text-center text-gray-800 mt-1">{{ articulo.precio }}€</p>
 
-          <div class="w-full mt-6">
+          <div class="flex justify-center mt-6">
             <button
               v-if="isLogged()"
-              class="mt-auto align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full"
+              class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full"
               type="button"
               data-ripple-light="true"
               title="Añadir al carrito"
@@ -55,7 +55,7 @@
             </button>
             <button
               v-else
-              class="mt-auto align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
+              class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
               type="button"
               title="Necesitas iniciar sesión"
             >
@@ -207,7 +207,7 @@ const addToCart = (articulo) => {
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 };
 
@@ -259,4 +259,8 @@ const totalPages = computed(() =>
 showArticles();
 </script>
 
-<style></style>
+<style>
+.shadow-top {
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+</style>

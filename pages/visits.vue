@@ -25,18 +25,20 @@
     </p>
     <Splide :options="splideOptions" class="splide-container">
       <SplideSlide v-for="visit in visits" :key="visit.id" class="splide-slide">
-        <div class="card p-4">
-          <img :src="getImageUrl(visit.img)" class="image" />
-          <h3 class="text-xl font-semibold my-4">{{ visit.titulo }}</h3>
-          <p class="text-gray-700 text-base mb-4">{{ visit.fecha_visita }}</p>
-          <p class="text-gray-700 text-base mb-4">
-            {{ visit.hora_entrada }} - {{ visit.hora_salida }}
-          </p>
-          <p class="text-gray-700 text-base mb-4">{{ visit.comentarios }}</p>
-          <p class="text-gray-700 text-base mb-4">
-            <b>Precio: {{ visit.precio_entrada }}€</b>
-          </p>
-          <div class="mb-4 mt-12 flex w-full items-center gap-3 md:w-1/2">
+        <div class="card p-4 flex flex-col justify-between">
+          <div>
+            <img :src="getImageUrl(visit.img)" class="image mb-4" />
+            <h3 class="text-xl font-semibold mb-4">{{ visit.titulo }}</h3>
+            <p class="text-gray-700 text-base mb-4">{{ visit.fecha_visita }}</p>
+            <p class="text-gray-700 text-base mb-4">
+              {{ visit.hora_entrada }} - {{ visit.hora_salida }}
+            </p>
+            <p class="text-gray-700 text-base mb-4">{{ visit.comentarios }}</p>
+            <p class="text-gray-700 text-base mb-4">
+              <b>Precio: {{ visit.precio_entrada }}€</b>
+            </p>
+          </div>
+          <div class="flex justify-start mt-6">
             <button
               class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-52"
               type="button"
@@ -185,6 +187,13 @@ showVisits();
 
 .splide__arrow {
   position: static;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 @media (max-width: 768px) {
