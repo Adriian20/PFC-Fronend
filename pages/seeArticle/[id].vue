@@ -56,12 +56,22 @@
         </p>
         <div class="mb-4 mt-12 flex w-full items-center gap-3 md:w-1/2">
           <button
-            @click="addToCart"
-            class="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-52"
+            v-if="isLogged()"
+            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full"
             type="button"
             data-ripple-light="true"
+            title="Añadir al carrito"
+            @click="addToCart(articulo)"
           >
             Añadir al carrito
+          </button>
+          <button
+            v-if="!isLogged()"
+            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
+            type="button"
+            title="Necesitas iniciar sesión"
+          >
+            Inicia sesión para añadir al carrito
           </button>
         </div>
       </div>
@@ -80,10 +90,12 @@ const route = useRoute();
 const articulo = ref([]);
 const cartStore = useCartStore();
 const toast = useToast();
-const isLogged = ref(false);
 const loaded = ref(false);
 
 const getImageUrl = (imageName) => `/images/${imageName}`;
+
+const isLogged = () =>
+  typeof localStorage !== "undefined" && localStorage.getItem("token") !== null;
 
 async function showArticles() {
   try {
@@ -91,7 +103,6 @@ async function showArticles() {
       "http://localhost:8080/pfc/articles/article/" + route.params.id
     );
     articulo.value = response.data;
-    isLogged.value = checkIsLogged();
     loaded.value = true;
   } catch (error) {
     console.error("Error fetching articles:", error);
@@ -102,13 +113,6 @@ async function showArticles() {
       },
     };
   }
-}
-
-function checkIsLogged() {
-  return (
-    typeof localStorage !== "undefined" &&
-    localStorage.getItem("token") !== null
-  );
 }
 
 const addToCart = () => {
