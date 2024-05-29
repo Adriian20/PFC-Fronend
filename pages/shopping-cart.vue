@@ -167,7 +167,7 @@
             </div>
             <button
               class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full"
-              v-if="cartItems.length > 0 || cartVisits.length > 0"
+              v-if="isLogged() && (cartItems.length > 0 || cartVisits.length > 0)"
               @click="buyProducts"
             >
               Realizar pedido
@@ -192,7 +192,7 @@
 import axios from "axios";
 import { useCartStore } from "@/stores/cart";
 import { useToast } from "vue-toastification";
-import { computed, ref, onMounted } from "vue";
+import { computed, ref } from "vue";
 import "@fortawesome/fontawesome-free/css/all.css";
 
 const toast = useToast();
@@ -202,6 +202,9 @@ const cartVisits = computed(() => cartStore.cartVisits);
 const totalCartPrice = computed(() => cartStore.totalCartPrice);
 const shippingCost = computed(() => cartStore.shippingCost);
 const isLoading = ref(false);
+
+const isLogged = () =>
+  typeof localStorage !== "undefined" && localStorage.getItem("token") !== null;
 
 const getImageUrl = (imageName) => {
   return `/images/${imageName}`;
@@ -280,10 +283,6 @@ async function buyProducts() {
     isLoading.value = false;
   }
 }
-
-onMounted(() => {
-  cartStore.initializeCart();
-});
 </script>
 
 <style>
