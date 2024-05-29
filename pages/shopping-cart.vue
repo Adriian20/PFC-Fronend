@@ -222,7 +222,6 @@ const getStockForItem = async (itemId) => {
   }
 };
 
-// Función para obtener el stock de una visita dado su ID
 const getStockForVisit = async (visitId) => {
   try {
     const response = await axios.get(`http://localhost:8080/pfc/visits/${visitId}/showStockEntradas`);
