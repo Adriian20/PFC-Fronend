@@ -210,6 +210,10 @@ import axios from "axios";
 import { ref, computed } from "vue";
 import { useCartStore } from "@/stores/cart";
 
+const cartStore = useCartStore();
+const cartItemCount = computed(() => cartStore.cartItemCount);
+const cartItems = computed(() => cartStore.cartItems);
+
 const navigation = [
   { name: "Página de inicio", href: "/", current: true },
   { name: "Categorías", href: "/categories", current: false },
@@ -228,14 +232,11 @@ const logout = async () => {
     await axios.post("http://localhost:8080/pfc/users/logoutUser", token);
     localStorage.removeItem("token");
     localStorage.removeItem("id");
+    cartStore.clearLocalStorage();
   } catch (error) {
     console.error("Error:", error);
   }
 };
-
-const cartStore = useCartStore();
-const cartItemCount = computed(() => cartStore.cartItemCount);
-const cartItems = computed(() => cartStore.cartItems);
 
 const cartDropdownVisible = ref(false);
 

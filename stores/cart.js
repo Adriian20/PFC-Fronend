@@ -80,6 +80,14 @@ export const useCartStore = defineStore('cart', {
                 localStorage.setItem('cartItems', JSON.stringify(this.items));
                 localStorage.setItem('cartVisits', JSON.stringify(this.visits));
             }
+        },
+        clearLocalStorage() {
+            if (typeof window !== 'undefined') {
+                localStorage.removeItem('cartItems');
+                localStorage.removeItem('cartVisits');
+                this.items = [];
+                this.visits = [];
+            }
         }
     },
     getters: {
