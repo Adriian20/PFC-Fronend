@@ -91,6 +91,31 @@
                     Ver Carrito
                   </NuxtLink>
                 </div>
+                <div v-else-if="cartVisits.length > 0">
+                  <div
+                    v-for="visit in cartVisits"
+                    :key="visit.id"
+                    class="flex items-center justify-between py-2"
+                  >
+                    <div>
+                      <h4 class="text-sm font-medium">{{ visit.titulo }}</h4>
+                      <p class="text-sm text-gray-500">
+                        Cantidad: {{ visit.quantity }}
+                      </p>
+                    </div>
+                    <img
+                      :src="getImageUrl(visit.img)"
+                      alt=""
+                      class="w-12 h-12 object-cover rounded-md"
+                    />
+                  </div>
+                  <NuxtLink
+                    to="/shopping-cart"
+                    class="block mt-4 text-center text-green-600 hover:underline"
+                  >
+                    Ver Carrito
+                  </NuxtLink>
+                </div>
                 <div v-else>
                   <p class="text-sm text-gray-500">El carrito está vacío.</p>
                 </div>
@@ -213,6 +238,7 @@ import { useCartStore } from "@/stores/cart";
 const cartStore = useCartStore();
 const cartItemCount = computed(() => cartStore.cartItemCount);
 const cartItems = computed(() => cartStore.cartItems);
+const cartVisits = computed(() => cartStore.cartVisits);
 
 const navigation = [
   { name: "Página de inicio", href: "/", current: true },
