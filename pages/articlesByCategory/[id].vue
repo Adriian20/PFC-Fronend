@@ -76,7 +76,7 @@
 
     <div
       v-if="totalPages > 1"
-      class="bottom-0 inset-x-0 p-4 bg-white shadow-top"
+      class="bottom-0 inset-x-0 p-4 bg-white"
     >
       <div class="mt-4 mb-2 flex justify-center">
         <button
