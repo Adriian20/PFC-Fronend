@@ -43,7 +43,7 @@
                   <td class="py-4 text-center">
                     <div class="flex items-center justify-center">
                       <button
-                        class="border rounded-md py-2 px-4 mr-2"
+                        class="border rounded-md py-2 px-4 ml-2 mr-2"
                         @click="
                           updateQuantity(item.id, item.quantity - 1, 'item')
                         "
@@ -53,7 +53,7 @@
                       </button>
                       <span class="text-center w-8">{{ item.quantity }}</span>
                       <button
-                        class="border rounded-md py-2 px-4 ml-2"
+                        class="border rounded-md py-2 px-4 mr-2 ml-2"
                         @click="
                           updateQuantity(item.id, item.quantity + 1, 'item')
                         "
@@ -65,7 +65,7 @@
                   <td class="py-4">
                     {{ (item.precio * item.quantity).toFixed(2) }}€
                   </td>
-                  <td class="py-4">
+                  <td class="py-4 pl-2">
                     <button
                       class="text-red-500"
                       @click="removeFromCart(item.id, 'item')"
@@ -121,7 +121,7 @@
                   <td class="py-4 text-center">
                     <div class="flex items-center justify-center">
                       <button
-                        class="border rounded-md py-2 px-4 mr-2"
+                        class="border rounded-md py-2 px-4 ml-2 mr-2"
                         @click="
                           updateQuantity(visit.id, visit.quantity - 1, 'visit')
                         "
@@ -131,7 +131,7 @@
                       </button>
                       <span class="text-center w-8">{{ visit.quantity }}</span>
                       <button
-                        class="border rounded-md py-2 px-4 ml-2"
+                        class="border rounded-md py-2 px-4 mr-2 ml-2"
                         @click="
                           updateQuantity(visit.id, visit.quantity + 1, 'visit')
                         "
@@ -143,7 +143,7 @@
                   <td class="py-4">
                     {{ (visit.precio_entrada * visit.quantity).toFixed(2) }}€
                   </td>
-                  <td class="py-4">
+                  <td class="py-4 pl-2">
                     <button
                       class="text-red-500"
                       @click="removeFromCart(visit.id, 'visit')"
