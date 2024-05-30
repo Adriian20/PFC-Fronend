@@ -195,7 +195,7 @@
 
     <DisclosurePanel class="sm:hidden">
       <div class="space-y-1 px-2 pb-3 pt-2">
-        <DisclosureButton
+        <a
           v-for="item in navigation"
           :key="item.name"
           :href="item.href"
@@ -208,7 +208,7 @@
           :aria-current="item.current ? 'page' : undefined"
         >
           {{ item.name }}
-        </DisclosureButton>
+        </a>
       </div>
     </DisclosurePanel>
   </Disclosure>
@@ -232,7 +232,7 @@ import {
   UserIcon,
 } from "@heroicons/vue/24/outline";
 import axios from "axios";
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useCartStore } from "@/stores/cart";
 
 const cartStore = useCartStore();
