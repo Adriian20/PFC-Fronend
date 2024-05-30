@@ -214,7 +214,9 @@ const getImageUrl = (imageName) => {
 
 const getStockForItem = async (itemId) => {
   try {
-    const response = await axios.get(`http://localhost:8080/pfc/articles/${itemId}/showStock`);
+    const response = await axios.get(
+      `http://localhost:8080/pfc/articles/${itemId}/showStock`
+    );
     return response.data;
   } catch (error) {
     console.error("Error al obtener el stock del artículo:", error);
@@ -224,7 +226,9 @@ const getStockForItem = async (itemId) => {
 
 const getStockForVisit = async (visitId) => {
   try {
-    const response = await axios.get(`http://localhost:8080/pfc/visits/${visitId}/showStockEntradas`);
+    const response = await axios.get(
+      `http://localhost:8080/pfc/visits/${visitId}/showStockEntradas`
+    );
     return response.data;
   } catch (error) {
     console.error("Error al obtener el stock de la visita:", error);
@@ -288,8 +292,12 @@ async function buyProducts() {
       );
     }
 
-    toast.success("Se ha realizado correctamente el pedido");
     clearCart();
+    toast.success("Se ha realizado correctamente el pedido", {
+      onClose: () => {
+        window.location.href = "/";
+      },
+    });
   } catch (error) {
     if (!error.response) {
       toast.error("Error de red. Por favor, verifica tu conexión a internet.");
