@@ -13,10 +13,14 @@
               <thead>
                 <tr>
                   <th class="text-left font-semibold">Producto</th>
-                  <th class="text-left font-semibold">Marca</th>
-                  <th class="text-left font-semibold">Talla</th>
+                  <th class="hidden md:table-cell text-left font-semibold">
+                    Marca
+                  </th>
+                  <th class="hidden md:table-cell text-left font-semibold">
+                    Talla
+                  </th>
                   <th class="text-left font-semibold">Precio</th>
-                  <th class="text-left font-semibold">Cantidad</th>
+                  <th class="text-center font-semibold">Cantidad</th>
                   <th class="text-left font-semibold">Total</th>
                   <th></th>
                 </tr>
@@ -33,11 +37,11 @@
                       <span class="font-semibold">{{ item.nombre }}</span>
                     </div>
                   </td>
-                  <td class="py-4">{{ item.marca }}</td>
-                  <td class="py-4">{{ item.talla }}</td>
+                  <td class="hidden md:table-cell py-4">{{ item.marca }}</td>
+                  <td class="hidden md:table-cell py-4">{{ item.talla }}</td>
                   <td class="py-4">{{ item.precio }}€</td>
-                  <td class="py-4">
-                    <div class="flex items-center">
+                  <td class="py-4 text-center">
+                    <div class="flex items-center justify-center">
                       <button
                         class="border rounded-md py-2 px-4 mr-2"
                         @click="
@@ -83,10 +87,14 @@
               <thead>
                 <tr>
                   <th class="text-left font-semibold">Visita</th>
-                  <th class="text-left font-semibold">Fecha</th>
-                  <th class="text-left font-semibold">Horario</th>
+                  <th class="hidden md:table-cell text-left font-semibold">
+                    Fecha
+                  </th>
+                  <th class="hidden md:table-cell text-left font-semibold">
+                    Horario
+                  </th>
                   <th class="text-left font-semibold">Precio</th>
-                  <th class="text-left font-semibold">Cantidad</th>
+                  <th class="text-center font-semibold">Cantidad</th>
                   <th class="text-left font-semibold">Total</th>
                   <th></th>
                 </tr>
@@ -103,13 +111,15 @@
                       <span class="font-semibold">{{ visit.titulo }}</span>
                     </div>
                   </td>
-                  <td class="py-4">{{ visit.fecha_visita }}</td>
-                  <td class="py-4">
+                  <td class="hidden md:table-cell py-4">
+                    {{ visit.fecha_visita }}
+                  </td>
+                  <td class="hidden md:table-cell py-4">
                     {{ visit.hora_entrada }} - {{ visit.hora_salida }}
                   </td>
                   <td class="py-4">{{ visit.precio_entrada.toFixed(2) }}€</td>
-                  <td class="py-4">
-                    <div class="flex items-center">
+                  <td class="py-4 text-center">
+                    <div class="flex items-center justify-center">
                       <button
                         class="border rounded-md py-2 px-4 mr-2"
                         @click="
@@ -323,5 +333,22 @@ async function buyProducts() {
 }
 .cart-item {
   margin-bottom: 16px;
+}
+
+@media (max-width: 767px) {
+  .cart-item {
+    padding: 1rem;
+  }
+
+  th,
+  td {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  img {
+    height: 3rem;
+    width: 3rem;
+  }
 }
 </style>
