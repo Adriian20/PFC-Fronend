@@ -6,7 +6,7 @@
       <img
         :src="getImageUrl(articulo.img)"
         :alt="articulo.nombre"
-        class="h-[34rem] w-[34rem]"
+        class="h-[34rem] w-[34rem] pr-7 pb-6"
       />
       <div>
         <h3
