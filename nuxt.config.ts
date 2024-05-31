@@ -1,4 +1,5 @@
 import { hostAPI } from "./config/index";
+import vueToastification from "./plugins/vue-toastification";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -17,7 +18,7 @@ export default defineNuxtConfig({
     "vue-toastification/dist/index.css",
   ],
   build: {
-    transpile: ["vuetify"],
+    transpile: ["vuetify", "vue-toastification"],
   },
   postcss: {
     plugins: {
