@@ -1,84 +1,94 @@
 <template>
-  <v-card class="formulario" elevation="5">
-    <v-card-title class="pb-0">
-      <h1 class="headline">REGISTRO</h1>
-    </v-card-title>
-    <v-card-text>
-      <v-form @submit.prevent="registerUser">
-        <v-text-field
-          :rules="nombreRules"
-          v-model="nombre"
-          label="Nombre"
-          outlined
-          prepend-inner-icon="mdi-account"
-        >
-        </v-text-field>
+  <v-container fluid class="d-flex align-center justify-center">
+    <v-row justify="center">
+      <v-col cols="12" sm="10" md="8" lg="6">
+        <v-card class="formulario" elevation="5">
+          <v-card-title class="pb-0">
+            <h1 class="headline">REGISTRO</h1>
+          </v-card-title>
+          <v-card-text>
+            <v-form @submit.prevent="registerUser">
+              <v-text-field
+                :rules="nombreRules"
+                v-model="nombre"
+                label="Nombre"
+                outlined
+                prepend-inner-icon="mdi-account"
+              >
+              </v-text-field>
 
-        <v-text-field
-          :rules="nombreRules"
-          v-model="apellidos"
-          label="Apellidos"
-          outlined
-          prepend-inner-icon="mdi-account"
-        >
-        </v-text-field>
+              <v-text-field
+                :rules="nombreRules"
+                v-model="apellidos"
+                label="Apellidos"
+                outlined
+                prepend-inner-icon="mdi-account"
+              >
+              </v-text-field>
 
-        <v-text-field
-          :rules="emailRules"
-          v-model="email"
-          label="Email"
-          outlined
-          prepend-inner-icon="mdi-email"
-        >
-        </v-text-field>
+              <v-text-field
+                :rules="emailRules"
+                v-model="email"
+                label="Email"
+                outlined
+                prepend-inner-icon="mdi-email"
+              >
+              </v-text-field>
 
-        <v-text-field
-          :rules="cuentaBancariaRules"
-          v-model="cuenta_bancaria"
-          label="Cuenta bancaria"
-          outlined
-          prepend-inner-icon="mdi-bank"
-        >
-        </v-text-field>
+              <v-text-field
+                :rules="cuentaBancariaRules"
+                v-model="cuenta_bancaria"
+                label="Cuenta bancaria"
+                outlined
+                prepend-inner-icon="mdi-bank"
+              >
+              </v-text-field>
 
-        <v-text-field
-          :rules="contrasenyaRules"
-          v-model="contrasenya"
-          :type="showContrasenya[0] ? 'text' : 'password'"
-          label="Contraseña"
-          outlined
-          prepend-inner-icon="mdi-lock"
-          :append-inner-icon="showContrasenya[0] ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="toggleShowContrasenya(0)"
-        >
-        </v-text-field>
+              <v-text-field
+                :rules="contrasenyaRules"
+                v-model="contrasenya"
+                :type="showContrasenya[0] ? 'text' : 'password'"
+                label="Contraseña"
+                outlined
+                prepend-inner-icon="mdi-lock"
+                :append-inner-icon="
+                  showContrasenya[0] ? 'mdi-eye' : 'mdi-eye-off'
+                "
+                @click:append-inner="toggleShowContrasenya(0)"
+              >
+              </v-text-field>
 
-        <v-text-field
-          :rules="contrasenyaMatchRules"
-          v-model="confirmContrasenya"
-          :type="showContrasenya[1] ? 'text' : 'password'"
-          label="Repita la Contraseña"
-          outlined
-          prepend-inner-icon="mdi-lock"
-          :append-inner-icon="showContrasenya[1] ? 'mdi-eye' : 'mdi-eye-off'"
-          @click:append-inner="toggleShowContrasenya(1)"
-        >
-        </v-text-field>
+              <v-text-field
+                :rules="contrasenyaMatchRules"
+                v-model="confirmContrasenya"
+                :type="showContrasenya[1] ? 'text' : 'password'"
+                label="Repita la Contraseña"
+                outlined
+                prepend-inner-icon="mdi-lock"
+                :append-inner-icon="
+                  showContrasenya[1] ? 'mdi-eye' : 'mdi-eye-off'
+                "
+                @click:append-inner="toggleShowContrasenya(1)"
+              >
+              </v-text-field>
 
-        <v-alert v-if="errorMessage" type="error" dense>
-          {{ errorMessage }}
-        </v-alert>
-      </v-form>
-    </v-card-text>
-    <v-card-actions class="btn">
-      <v-btn
-        :disabled="!isRegisterFormValid"
-        color="primary"
-        @click="registerUser"
-        >REGISTRARSE</v-btn
-      >
-    </v-card-actions>
-  </v-card>
+              <v-alert v-if="errorMessage" type="error" dense>
+                {{ errorMessage }}
+              </v-alert>
+            </v-form>
+          </v-card-text>
+          <v-card-actions class="btn">
+            <v-btn
+              :disabled="!isRegisterFormValid"
+              color="primary"
+              @click="registerUser"
+              >REGISTRARSE</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
@@ -174,13 +184,20 @@ function toggleShowContrasenya(index) {
 
 <style scoped>
 .formulario {
-  margin: 80px auto;
+  margin: 20px auto;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  height: 800px;
-  width: 700px;
+  max-width: 100%;
   text-align: center;
+}
+
+@media (min-width: 600px) {
+  .formulario {
+    margin: 80px auto;
+    height: auto;
+    max-width: 900px;
+  }
 }
 
 h1 {
