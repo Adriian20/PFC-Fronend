@@ -121,7 +121,7 @@ const isLogged = () =>
 async function showVisits() {
   try {
     const response = await axios.get(
-      "http://localhost:8080/pfc/visits/allVisits"
+      "https://futbolmaniavintage.up.railway.app/pfc/visits/allVisits"
     );
     visits.value = response.data;
   } catch (error) {

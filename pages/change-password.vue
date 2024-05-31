@@ -133,7 +133,7 @@ function toggleShowContrasenya(index) {
 async function changePassword() {
   try {
     const response = await axios.put(
-      "http://localhost:8080/pfc/users/changePassword",
+      "https://futbolmaniavintage.up.railway.app/pfc/users/changePassword",
       { contrasenya: contrasenya.value, token }
     );
     successMessage.value = "¡Tu contraseña se ha cambiado correctamente!";
@@ -151,7 +151,7 @@ async function changePassword() {
 async function showUserInformation() {
   try {
     const response = await axios.post(
-      "http://localhost:8080/pfc/users/userInformation",
+      "https://futbolmaniavintage.up.railway.app/pfc/users/userInformation",
       { token }
     );
     email.value = response.data.email;
@@ -184,8 +184,8 @@ showUserInformation();
   width: 100%;
 }
 
-.alertEdit { 
-  margin-bottom: 24px; 
+.alertEdit {
+  margin-bottom: 24px;
   text-align: center;
   font-size: 18px;
 }

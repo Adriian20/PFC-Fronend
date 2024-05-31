@@ -74,10 +74,7 @@
       </h1>
     </div>
 
-    <div
-      v-if="totalPages > 1"
-      class="bottom-0 inset-x-0 p-4 bg-white"
-    >
+    <div v-if="totalPages > 1" class="bottom-0 inset-x-0 p-4 bg-white">
       <div class="mt-4 mb-2 flex justify-center">
         <button
           class="flex items-center gap-2 px-6 py-3 font-sans text-xs font-bold text-center text-gray-900 uppercase align-middle transition-all rounded-full select-none hover:bg-gray-900/10 active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -174,7 +171,8 @@ const isLogged = () =>
 async function showArticlesByCategory() {
   try {
     const response = await axios.get(
-      "http://localhost:8080/pfc/articles/findByCategoria/" + route.params.id
+      "https://futbolmaniavintage.up.railway.app/pfc/articles/findByCategoria/" +
+        route.params.id
     );
     const filteredArticles = response.data.filter(
       (article) => article.stock > 0
@@ -207,7 +205,7 @@ const addToCart = (articulo) => {
 const scrollToTop = () => {
   window.scrollTo({
     top: 0,
-    behavior: "smooth"
+    behavior: "smooth",
   });
 };
 

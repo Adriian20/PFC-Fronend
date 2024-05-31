@@ -100,7 +100,8 @@ const isLogged = () =>
 async function showArticles() {
   try {
     const response = await axios.get(
-      "http://localhost:8080/pfc/articles/article/" + route.params.id
+      "https://futbolmaniavintage.up.railway.app/pfc/articles/article/" +
+        route.params.id
     );
     articulo.value = response.data;
     loaded.value = true;

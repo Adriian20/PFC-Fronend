@@ -225,7 +225,7 @@ const getImageUrl = (imageName) => {
 const getStockForItem = async (itemId) => {
   try {
     const response = await axios.get(
-      `http://localhost:8080/pfc/articles/${itemId}/showStock`
+      `https://futbolmaniavintage.up.railway.app/pfc/articles/${itemId}/showStock`
     );
     return response.data;
   } catch (error) {
@@ -237,7 +237,7 @@ const getStockForItem = async (itemId) => {
 const getStockForVisit = async (visitId) => {
   try {
     const response = await axios.get(
-      `http://localhost:8080/pfc/visits/${visitId}/showStockEntradas`
+      `https://futbolmaniavintage.up.railway.app/pfc/visits/${visitId}/showStockEntradas`
     );
     return response.data;
   } catch (error) {
@@ -290,14 +290,14 @@ async function buyProducts() {
   try {
     if (Object.keys(articulos).length > 0) {
       await axios.post(
-        `http://localhost:8080/pfc/users/${user}/buy-articles`,
+        `https://futbolmaniavintage.up.railway.app/pfc/users/${user}/buy-articles`,
         articulos
       );
     }
 
     if (Object.keys(visitas).length > 0) {
       await axios.post(
-        `http://localhost:8080/pfc/users/${user}/buy-visits`,
+        `https://futbolmaniavintage.up.railway.app/pfc/users/${user}/buy-visits`,
         visitas
       );
     }

@@ -33,7 +33,7 @@
           </div>
         </a>
 
-        <div class="p-6 flex flex-col justify-between ">
+        <div class="p-6 flex flex-col justify-between">
           <p class="text-gray-400 font-light text-xs text-center">
             {{ articulo.marca }}
           </p>
@@ -159,7 +159,7 @@ const isLogged = () =>
 async function showArticles() {
   try {
     const articlesResponse = await axios.get(
-      "http://localhost:8080/pfc/articles/allArticles"
+      "https://futbolmaniavintage.up.railway.app/pfc/articles/allArticles"
     );
 
     const sortedArticulos = articlesResponse.data

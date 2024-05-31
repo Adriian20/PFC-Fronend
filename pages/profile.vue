@@ -137,7 +137,7 @@ const cuentaBancariaRules = [
 async function showUserInformation() {
   try {
     const response = await axios.post(
-      "http://localhost:8080/pfc/users/userInformation",
+      "https://futbolmaniavintage.up.railway.app/pfc/users/userInformation",
       { token }
     );
     nombre.value = response.data.nombre;
@@ -171,7 +171,7 @@ async function editUser() {
     }
 
     const response = await axios.put(
-      "http://localhost:8080/pfc/users/editUser",
+      "https://futbolmaniavintage.up.railway.app/pfc/users/editUser",
       userData
     );
     successMessage.value = "¡El usuario se ha editado correctamente!";
@@ -209,8 +209,8 @@ showUserInformation();
   width: 100%;
 }
 
-.alertEdit { 
-  margin-bottom: 24px; 
+.alertEdit {
+  margin-bottom: 24px;
   text-align: center;
   font-size: 18px;
 }
