@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="container mx-auto">
-      <h1 class="text-3xl font-semibold mb-4">Carrito de compras</h1>
+      <h1 class="text-3xl font-semibold mb-6">Cesta</h1>
       <div class="flex flex-col md:flex-row gap-4">
         <div class="lg:w-3/4 xl:w-11/12">
           <div
@@ -338,6 +338,10 @@ async function buyProducts() {
 @media (max-width: 767px) {
   .cart-item {
     padding: 1rem;
+  }
+
+  h1 {
+    text-align: center;
   }
 
   th,
