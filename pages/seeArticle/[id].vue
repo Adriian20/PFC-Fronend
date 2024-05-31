@@ -1,5 +1,5 @@
 <template>
-  <div class="py-16 px-8">
+  <div class="px-8">
     <div
       class="mx-auto container grid place-items-center grid-cols-1 md:grid-cols-2"
     >
