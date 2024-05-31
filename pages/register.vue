@@ -155,7 +155,7 @@ async function registerUser() {
 
   try {
     const response = await axios.post(
-      "https://serverapi.up.railway.app/pfc/users/register",
+      "https://serverapi.up.railway.app/users/register",
       userData
     );
     localStorage.setItem("token", response.data.token);

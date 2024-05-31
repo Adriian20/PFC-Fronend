@@ -39,7 +39,7 @@ let categorias = ref([]);
 async function showCategories() {
   try {
     const response = await axios.get(
-      "https://serverapi.up.railway.app/pfc/categories/allCategories"
+      "https://serverapi.up.railway.app/categories/allCategories"
     );
     categorias.value = response.data;
   } catch (error) {

@@ -121,7 +121,7 @@ const isLogged = () =>
 async function showVisits() {
   try {
     const response = await axios.get(
-      "https://serverapi.up.railway.app/pfc/visits/allVisits"
+      "https://serverapi.up.railway.app/visits/allVisits"
     );
     visits.value = response.data;
   } catch (error) {

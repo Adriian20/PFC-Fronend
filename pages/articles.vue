@@ -159,7 +159,7 @@ const isLogged = () =>
 async function showArticles() {
   try {
     const articlesResponse = await axios.get(
-      "https://serverapi.up.railway.app/pfc/articles/allArticles"
+      "https://serverapi.up.railway.app/articles/allArticles"
     );
 
     const sortedArticulos = articlesResponse.data
