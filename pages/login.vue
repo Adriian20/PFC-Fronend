@@ -90,7 +90,7 @@ const loginUser = async () => {
 
   try {
     const response = await axios.post(
-      "https://futbolmaniavintage.up.railway.app/pfc/users/loginUser",
+      "https://serverapi.up.railway.app/pfc/users/loginUser",
       userData
     );
     localStorage.setItem("token", response.data.token);

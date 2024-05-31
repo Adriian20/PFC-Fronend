@@ -120,7 +120,7 @@ const getImageUrl = (imageName) => {
 async function showArticles() {
   try {
     const response = await axios.get(
-      "https://futbolmaniavintage.up.railway.app/pfc/articles/allArticles"
+      "https://serverapi.up.railway.app/pfc/articles/allArticles"
     );
     const sortedArticulos = response.data.sort((a, b) => a.stock - b.stock);
     articulos.value = sortedArticulos.slice(0, 4);
@@ -138,7 +138,7 @@ async function showArticles() {
 async function showCategories() {
   try {
     const response = await axios.get(
-      "https://futbolmaniavintage.up.railway.app/pfc/categories/allCategories"
+      "https://serverapi.up.railway.app/pfc/categories/allCategories"
     );
     categorias.value = response.data.slice(0, 4);
   } catch (error) {

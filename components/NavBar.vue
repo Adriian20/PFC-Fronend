@@ -256,7 +256,7 @@ const logout = async () => {
       token: localStorage.getItem("token"),
     };
     await axios.post(
-      "https://futbolmaniavintage.up.railway.app/pfc/users/logoutUser",
+      "https://serverapi.up.railway.app/pfc/users/logoutUser",
       token
     );
     localStorage.removeItem("token");

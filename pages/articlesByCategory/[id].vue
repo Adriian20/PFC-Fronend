@@ -171,7 +171,7 @@ const isLogged = () =>
 async function showArticlesByCategory() {
   try {
     const response = await axios.get(
-      "https://futbolmaniavintage.up.railway.app/pfc/articles/findByCategoria/" +
+      "https://serverapi.up.railway.app/pfc/articles/findByCategoria/" +
         route.params.id
     );
     const filteredArticles = response.data.filter(
