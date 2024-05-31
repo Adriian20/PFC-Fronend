@@ -192,6 +192,14 @@ function toggleShowContrasenya(index) {
   text-align: center;
 }
 
+h1 {
+  margin-bottom: 20px;
+}
+
+.v-btn {
+  width: 100%;
+}
+
 @media (min-width: 600px) {
   .formulario {
     margin: 80px auto;
@@ -200,11 +208,9 @@ function toggleShowContrasenya(index) {
   }
 }
 
-h1 {
-  margin-bottom: 20px;
-}
-
-.v-btn {
-  width: 100%;
+@media (max-width: 768px) {
+  .v-text-field {
+    margin-bottom: 12px;
+  }
 }
 </style>
