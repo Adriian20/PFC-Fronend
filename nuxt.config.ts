@@ -36,5 +36,5 @@ export default defineNuxtConfig({
   pinia: {
     storesDirs: ["stores"],
   },
-  plugins: ["~/plugins/vue-toastification.js"],
+  plugins: [{ src: "~/plugins/vue-toastification.js", mode: "client" }],
 });
