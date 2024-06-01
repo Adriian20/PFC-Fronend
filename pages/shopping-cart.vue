@@ -30,7 +30,7 @@
                   <td class="py-4">
                     <div class="flex items-center">
                       <img
-                        class="h-16 w-16 mr-4"
+                        class="h-1/6 w-1/6 mr-2 imgCarrito"
                         :src="getImageUrl(item.img)"
                         alt="Imagen del producto"
                       />
@@ -350,9 +350,9 @@ async function buyProducts() {
     line-height: 1.25rem;
   }
 
-  img {
-    height: 3rem;
-    width: 3rem;
+  .imgCarrito {
+    height: 3.3rem !important;
+    width: 3.3rem !important;
   }
 }
 </style>
