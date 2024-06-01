@@ -37,93 +37,6 @@
         <div
           class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
-          <div
-            @mouseenter="showCartDropdown"
-            @mouseleave="hideCartDropdown"
-            class="relative"
-          >
-            <NuxtLink to="/shopping-cart">
-              <button
-                type="button"
-                class="relative rounded-full bg-green-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-green-800"
-                @click="hideCartDropdown"
-                >
-                <span class="absolute -inset-1.5" />
-                <span class="sr-only">Carrito de compras</span>
-                <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
-                <!-- Badge -->
-                <span
-                  v-if="cartItemCount > 0"
-                  class="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center top-[4%] right-[2%] translate-x-2/4 -translate-y-2/4 bg-red-500 text-white min-w-[24px] min-h-[24px]"
-                >
-                  {{ cartItemCount }}
-                </span>
-              </button>
-            </NuxtLink>
-            <!-- Dropdown -->
-            <div
-              v-if="cartDropdownVisible"
-              class="absolute right-0 mt-2 w-72 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
-            >
-              <div class="p-4">
-                <h3 class="text-lg font-semibold">Resumen del Carrito</h3>
-                <div v-if="cartItems.length > 0">
-                  <div
-                    v-for="item in cartItems"
-                    :key="item.id"
-                    class="flex items-center justify-between py-2"
-                  >
-                    <div>
-                      <h4 class="text-sm font-medium">{{ item.nombre }}</h4>
-                      <p class="text-sm text-gray-500">
-                        Cantidad: {{ item.quantity }}
-                      </p>
-                    </div>
-                    <img
-                      :src="getImageUrl(item.img)"
-                      alt=""
-                      class="w-12 h-12 object-cover rounded-md"
-                    />
-                  </div>
-                  <NuxtLink
-                    to="/shopping-cart"
-                    class="block mt-4 text-center text-green-600 hover:underline"
-                  >
-                    Ver Carrito
-                  </NuxtLink>
-                </div>
-                <div v-else-if="cartVisits.length > 0">
-                  <div
-                    v-for="visit in cartVisits"
-                    :key="visit.id"
-                    class="flex items-center justify-between py-2"
-                  >
-                    <div>
-                      <h4 class="text-sm font-medium">{{ visit.titulo }}</h4>
-                      <p class="text-sm text-gray-500">
-                        Cantidad: {{ visit.quantity }}
-                      </p>
-                    </div>
-                    <img
-                      :src="getImageUrl(visit.img)"
-                      alt=""
-                      class="w-12 h-12 object-cover rounded-md"
-                    />
-                  </div>
-                  <NuxtLink
-                    to="/shopping-cart"
-                    class="block mt-4 text-center text-green-600 hover:underline"
-                  >
-                    Ver Carrito
-                  </NuxtLink>
-                </div>
-                <div v-else>
-                  <p class="text-sm text-gray-500">El carrito está vacío.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Profile dropdown -->
           <Menu as="div" class="relative ml-3">
             <div>
@@ -131,7 +44,7 @@
                 class="relative rounded-full bg-green-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-green-800"
               >
                 <span class="absolute -inset-1.5" />
-                <span class="sr-only">Abri menu de usuario</span>
+                <span class="sr-only">Abrir menu de usuario</span>
                 <UserIcon class="h-6 w-6" aria-hidden="true" />
               </MenuButton>
             </div>
@@ -173,16 +86,15 @@
                       active ? 'bg-gray-100' : '',
                       'block px-4 py-2 text-sm text-gray-700',
                     ]"
-                    >Tú Perfil</a
+                    >Tu Perfil</a
                   >
                 </MenuItem>
                 <MenuItem v-slot="{ active }" v-if="isLogged()">
                   <a
-                    href="/"
                     @click="logout()"
                     :class="[
                       active ? 'bg-gray-100' : '',
-                      'block px-4 py-2 text-sm text-gray-700',
+                      'block px-4 py-2 text-sm text-gray-700 hover:cursor-pointer',
                     ]"
                     >Cerrar Sesión</a
                   >
@@ -190,6 +102,93 @@
               </MenuItems>
             </transition>
           </Menu>
+
+          <div
+            @mouseenter="showCartDropdown"
+            @mouseleave="hideCartDropdown"
+            class="relative ml-3"
+          >
+            <NuxtLink to="/shopping-cart">
+              <button
+                type="button"
+                class="relative rounded-full bg-green-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-1 focus:ring-white focus:ring-offset-1 focus:ring-offset-green-800"
+                @click="hideCartDropdown"
+              >
+                <span class="absolute -inset-1.5" />
+                <span class="sr-only">Carrito de compras</span>
+                <ShoppingCartIcon class="h-6 w-6" aria-hidden="true" />
+                <!-- Badge -->
+                <span
+                  v-if="cartItemCount > 0"
+                  class="absolute rounded-full py-1 px-1 text-xs font-medium content-[''] leading-none grid place-items-center top-[4%] right-[2%] translate-x-2/4 -translate-y-2/4 bg-red-500 text-white min-w-[24px] min-h-[24px]"
+                >
+                  {{ cartItemCount }}
+                </span>
+              </button>
+            </NuxtLink>
+            <!-- Dropdown -->
+            <div
+              v-if="cartDropdownVisible"
+              class="absolute right-0 mt-2 w-72 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
+            >
+              <div class="p-4">
+                <h3 class="text-lg font-semibold">Resumen del Carrito</h3>
+                <div v-if="cartItems.length > 0">
+                  <div
+                    v-for="item in cartItems"
+                    :key="item.id"
+                    class="flex items-center justify-between py-2"
+                  >
+                    <div>
+                      <h4 class="text-sm font-medium">{{ item.nombre }}</h4>
+                      <p class="text-sm text-gray-500">
+                        Cantidad: {{ item.quantity }}
+                      </p>
+                    </div>
+                    <img
+                      :src="getImageUrl(item.img)"
+                      alt=""
+                      class="w-1/3 h-1/3 object-cover rounded-md"
+                    />
+                  </div>
+                  <NuxtLink
+                    to="/shopping-cart"
+                    class="block mt-4 text-center text-green-600 hover:underline"
+                  >
+                    Ver Carrito
+                  </NuxtLink>
+                </div>
+                <div v-else-if="cartVisits.length > 0">
+                  <div
+                    v-for="visit in cartVisits"
+                    :key="visit.id"
+                    class="flex items-center justify-between py-2"
+                  >
+                    <div>
+                      <h4 class="text-sm font-medium">{{ visit.titulo }}</h4>
+                      <p class="text-sm text-gray-500">
+                        Cantidad: {{ visit.quantity }}
+                      </p>
+                    </div>
+                    <img
+                      :src="getImageUrl(visit.img)"
+                      alt=""
+                      class="w-12 h-12 object-cover rounded-md"
+                    />
+                  </div>
+                  <NuxtLink
+                    to="/shopping-cart"
+                    class="block mt-4 text-center text-green-600 hover:underline"
+                  >
+                    Ver Carrito
+                  </NuxtLink>
+                </div>
+                <div v-else>
+                  <p class="text-sm text-gray-500">El carrito está vacío.</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
