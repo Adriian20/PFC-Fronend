@@ -70,10 +70,8 @@ import axios from "axios";
 import { Splide, SplideSlide } from "@splidejs/vue-splide";
 import "@splidejs/vue-splide/css";
 import { useCartStore } from "@/stores/cart";
-import { useToast } from "vue-toastification";
 
 const cartStore = useCartStore();
-const toast = useToast();
 const visits = ref([]);
 
 const featuredImages = ref([
