@@ -1,6 +1,9 @@
 <template>
   <div class="px-8">
+    <LoadingBar v-if="isLoading" />
+
     <div
+      v-else-if="articulo"
       class="mx-auto container grid place-items-center grid-cols-1 md:grid-cols-2"
     >
       <img
@@ -84,13 +87,13 @@ import axios from "axios";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useCartStore } from "@/stores/cart";
-import { useToast } from "vue-toastification";
+import LoadingBar from "@/components/LoadingBar.vue";
 
 const route = useRoute();
 const articulo = ref([]);
 const cartStore = useCartStore();
-const toast = useToast();
 const loaded = ref(false);
+const isLoading = ref(true);
 
 const getImageUrl = (imageName) => `/images/${imageName}`;
 
@@ -112,6 +115,8 @@ async function showArticles() {
           "Error al obtener los artículos. Por favor, inténtalo de nuevo más tarde.",
       },
     };
+  } finally {
+    isLoading.value = false;
   }
 }
 

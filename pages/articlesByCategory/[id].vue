@@ -1,7 +1,9 @@
 <template>
   <div>
+    <LoadingBar v-if="isLoading" />
+
     <div
-      v-if="articulos.length > 0"
+      v-else-if="articulos.length > 0"
       class="flex-col justify-items-center px-16 md:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
     >
       <div
@@ -20,14 +22,14 @@
           >
             <div>
               <span
-                class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none"
                 v-if="articulo.stock > 5"
+                class="uppercase text-xs bg-green-50 p-0.5 border-green-500 border rounded text-green-700 font-medium select-none"
               >
                 Disponible
               </span>
               <span
-                class="uppercase text-xs bg-red-50 p-0.5 border-red-500 border rounded text-red-700 font-medium select-none"
                 v-else
+                class="uppercase text-xs bg-red-50 p-0.5 border-red-500 border rounded text-red-700 font-medium select-none"
               >
                 Quedan pocos
               </span>
@@ -152,12 +154,12 @@ import axios from "axios";
 import { ref, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useCartStore } from "@/stores/cart";
-import { useToast } from "vue-toastification";
+import LoadingBar from "@/components/LoadingBar.vue";
 
 const cartStore = useCartStore();
-const toast = useToast();
 const route = useRoute();
 const articulos = ref([]);
+const isLoading = ref(true);
 let page = ref(1);
 const perPage = 12;
 
@@ -186,6 +188,8 @@ async function showArticlesByCategory() {
           "Error al obtener los artículos. Por favor, inténtalo de nuevo más tarde.",
       },
     };
+  } finally {
+    isLoading.value = false;
   }
 }
 

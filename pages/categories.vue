@@ -1,30 +1,37 @@
 <template>
   <div class="container mx-auto py-8">
-    <h1 class="text-4xl font-bold text-center mb-12 uppercase">Categorías</h1>
-    <div
-      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-    >
+    <LoadingBar v-if="isLoading" />
+
+    <div v-else>
+      <h1 class="text-4xl font-bold text-center mb-12 uppercase">Categorías</h1>
       <div
-        v-for="category in categorias"
-        :key="category.id"
-        class="relative cursor-pointer"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
       >
-        <a :href="'/articlesByCategory/' + category.id" class="block relative">
-          <img
-            :src="getImageUrl(category.img)"
-            :alt="category.nombre"
-            class="w-full h-72 object-cover mb-2 rounded-lg"
-          />
-          <div class="absolute inset-x-0 -bottom-0">
-            <div class="bg-gray-900 bg-opacity-30 transform -translate-y-1/2">
-              <h2
-                class="text-white text-2xl font-semibold py-2 text-center uppercase"
-              >
-                {{ category.nombre }}
-              </h2>
+        <div
+          v-for="category in categorias"
+          :key="category.id"
+          class="relative cursor-pointer"
+        >
+          <a
+            :href="'/articlesByCategory/' + category.id"
+            class="block relative"
+          >
+            <img
+              :src="getImageUrl(category.img)"
+              :alt="category.nombre"
+              class="w-full h-72 object-cover mb-2 rounded-lg"
+            />
+            <div class="absolute inset-x-0 -bottom-0">
+              <div class="bg-gray-900 bg-opacity-30 transform -translate-y-1/2">
+                <h2
+                  class="text-white text-2xl font-semibold py-2 text-center uppercase"
+                >
+                  {{ category.nombre }}
+                </h2>
+              </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -33,8 +40,9 @@
 <script setup>
 import axios from "axios";
 import { ref } from "vue";
-
-let categorias = ref([]);
+import LoadingBar from "~/components/LoadingBar.vue";
+const isLoading = ref(true);
+const categorias = ref([]);
 
 async function showCategories() {
   try {
@@ -50,6 +58,8 @@ async function showCategories() {
           "Error al obtener las categorías. Por favor, inténtalo de nuevo más tarde.",
       },
     };
+  } finally {
+    isLoading.value = false;
   }
 }
 
