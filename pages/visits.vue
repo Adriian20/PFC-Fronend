@@ -18,7 +18,7 @@
     </div>
 
     <h2 class="text-4xl font-bold text-center mb-8 mt-28">Compra tu visita</h2>
-    <p class="text-center text-gray-600 text-base mb-8">
+    <p class="text-center text-gray-600 text-lg mb-8">
       El Museo de Fútbol es un lugar donde se pueden ver objetos relacionados
       con el fútbol, como balones, trofeos, equipaciones de fútbol, entre otros.
       Por lo que el Museo de Fútbol es un lugar ideal para visitar.
@@ -29,18 +29,18 @@
           <div>
             <img :src="getImageUrl(visit.img)" class="image mb-4" />
             <h3 class="text-xl font-semibold mb-4">{{ visit.titulo }}</h3>
-            <p class="text-gray-700 text-base mb-4">
+            <p class="text-gray-900 text-lg mb-4">
               {{ new Date(visit.fecha_visita).toLocaleString("es-ES", {
                 day: "numeric",
                 month: "long",
                 year: "numeric",
               }) }}
             </p>
-            <p class="text-gray-700 text-base mb-4">
+            <p class="text-gray-900 text-lg mb-4">
               {{ visit.hora_entrada }} - {{ visit.hora_salida }}
             </p>
-            <p class="text-gray-700 text-base mb-4">{{ visit.comentarios }}</p>
-            <p class="text-gray-700 text-base mb-4">
+            <p class="text-gray-700 text-lg mb-4">{{ visit.comentarios }}</p>
+            <p class="text-gray-700 text-lg mb-4">
               <b>Precio: {{ visit.precio_entrada }}€</b>
             </p>
           </div>

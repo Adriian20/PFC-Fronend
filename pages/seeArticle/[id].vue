@@ -23,44 +23,44 @@
           {{ articulo.precio }}
         </h5>
         <p
-          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+          class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
         >
           {{ articulo.descripcion }}
         </p>
         <p
           v-if="articulo.talla"
-          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+          class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
         >
           Talla: {{ articulo.talla }}
         </p>
         <p
           v-else
-          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+          class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
         >
-          Talla: Única
+          <b>Talla:</b> Única
         </p>
         <p
           v-if="articulo.genero"
-          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+          class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
         >
-          Genero: {{ articulo.genero }}
+          <b>Genero:</b> {{ articulo.genero }}
         </p>
         <p
           v-else
-          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+          class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
         >
-          Genero: Unisex
+          <b>Genero:</b> Unisex
         </p>
         <p
           v-if="articulo.marca"
-          class="block antialiased font-sans text-base leading-relaxed text-inherit !mt-4 font-normal !text-gray-500"
+          class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
         >
-          Marca: {{ articulo.marca }}
+          <b>Marca:</b> {{ articulo.marca }}
         </p>
         <div class="mb-4 mt-12 flex w-full items-center gap-3 md:w-1/2">
           <button
             v-if="isLogged()"
-            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full"
+            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-sm py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full"
             type="button"
             data-ripple-light="true"
             title="Añadir al carrito"
@@ -70,7 +70,7 @@
           </button>
           <button
             v-if="!isLogged()"
-            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
+            class="align-middle select-none font-sans font-bold text-center uppercase transition-all text-sm py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none w-full opacity-50 cursor-not-allowed"
             type="button"
             title="Necesitas iniciar sesión"
           >
