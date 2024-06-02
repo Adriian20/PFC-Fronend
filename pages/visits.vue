@@ -28,7 +28,7 @@
         <div class="card p-4 flex flex-col justify-between">
           <div>
             <img :src="getImageUrl(visit.img)" class="image mb-4" />
-            <h3 class="text-xl font-semibold mb-4">{{ visit.titulo }}</h3>
+            <h3 class="text-2xl font-semibold mb-4">{{ visit.titulo }}</h3>
             <p class="text-gray-900 text-lg mb-4">
               {{ new Date(visit.fecha_visita).toLocaleString("es-ES", {
                 day: "numeric",

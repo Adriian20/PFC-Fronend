@@ -13,14 +13,14 @@
       />
       <div>
         <h3
-          class="block antialiased tracking-normal font-sans text-3xl font-semibold leading-snug text-inherit mb-4"
+          class="block antialiased tracking-normal font-sans text-4xl font-semibold leading-snug text-inherit mb-4"
         >
           {{ articulo.nombre }}
         </h3>
         <h5
           class="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-inherit"
         >
-          {{ articulo.precio }}
+          {{ articulo.precio }}€
         </h5>
         <p
           class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
