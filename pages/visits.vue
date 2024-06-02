@@ -29,7 +29,13 @@
           <div>
             <img :src="getImageUrl(visit.img)" class="image mb-4" />
             <h3 class="text-xl font-semibold mb-4">{{ visit.titulo }}</h3>
-            <p class="text-gray-700 text-base mb-4">{{ visit.fecha_visita }}</p>
+            <p class="text-gray-700 text-base mb-4">
+              {{ new Date(visit.fecha_visita).toLocaleString("es-ES", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              }) }}
+            </p>
             <p class="text-gray-700 text-base mb-4">
               {{ visit.hora_entrada }} - {{ visit.hora_salida }}
             </p>
