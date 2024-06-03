@@ -31,7 +31,7 @@
           v-if="articulo.talla"
           class="block antialiased font-sans text-lg leading-relaxed text-inherit !mt-4 font-normal !text-gray-700"
         >
-          Talla: {{ articulo.talla }}
+          <b>Talla:</b> {{ articulo.talla }}
         </p>
         <p
           v-else
