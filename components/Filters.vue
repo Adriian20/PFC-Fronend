@@ -44,13 +44,47 @@
         </select>
       </div>
     </div>
+    <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div>
+        <label for="minPrice" class="block text-sm font-medium text-gray-700"
+          >Precio Mínimo</label
+        >
+        <input
+          v-model.number="filters.minPrice"
+          type="number"
+          id="minPrice"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          placeholder="0"
+        />
+      </div>
+      <div>
+        <label for="maxPrice" class="block text-sm font-medium text-gray-700"
+          >Precio Máximo</label
+        >
+        <input
+          v-model.number="filters.maxPrice"
+          type="number"
+          id="maxPrice"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          placeholder="0"
+        />
+      </div>
+    </div>
     <div class="flex justify-end">
       <button
-        @click="applyFilters"
-        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        @click="clearFilters"
+        class="px-4 py-2 mr-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
       >
-        Aplicar Filtros
+        Limpiar Filtros
       </button>
+      <div class="flex justify-end">
+        <button
+          @click="applyFilters"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Aplicar Filtros
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -75,7 +109,17 @@ const filters = ref({
   search: "",
   brand: "",
   size: "",
+  minPrice: 0,
+  maxPrice: 0,
 });
+
+const clearFilters = () => {
+  filters.value.search = "";
+  filters.value.brand = "";
+  filters.value.size = "";
+  filters.value.minPrice = 0;
+  filters.value.maxPrice = 0;
+};
 
 const applyFilters = () => {
   emit("apply-filters", filters.value);

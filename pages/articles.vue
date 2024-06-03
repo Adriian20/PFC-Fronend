@@ -245,7 +245,19 @@ const applyFilters = (filters) => {
       ? articulo.marca === filters.brand
       : true;
     const matchesSize = filters.size ? articulo.talla === filters.size : true;
-    return matchesSearch && matchesBrand && matchesSize;
+    const matchesMinPrice = filters.minPrice
+      ? articulo.precio >= filters.minPrice
+      : true;
+    const matchesMaxPrice = filters.maxPrice
+      ? articulo.precio <= filters.maxPrice
+      : true;
+    return (
+      matchesSearch &&
+      matchesBrand &&
+      matchesSize &&
+      matchesMinPrice &&
+      matchesMaxPrice
+    );
   });
 };
 
