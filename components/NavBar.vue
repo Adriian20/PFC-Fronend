@@ -262,6 +262,7 @@ const logout = async () => {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
     cartStore.clearLocalStorage();
+    window.location.href = "/";
   } catch (error) {
     console.error("Error:", error);
   }
