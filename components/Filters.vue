@@ -12,7 +12,7 @@
         placeholder="Buscar por título..."
       />
     </div>
-    <div class="mb-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+    <div class="mb-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
       <div>
         <label for="sex" class="block text-sm font-medium text-gray-700"
           >Sexo</label
