@@ -2,7 +2,12 @@
   <div>
     <LoadingBar v-if="isLoading" />
     <div v-else>
-      <Filters :brands="brands" :sizes="sizes" @apply-filters="applyFilters" />
+      <Filters
+        :brands="brands"
+        :sizes="sizes"
+        :sexes="sexs"
+        @apply-filters="applyFilters"
+      />
       <div
         class="flex-col justify-items-center px-16 md:px-28 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
       >
@@ -150,6 +155,7 @@ let page = ref(1);
 const perPage = 12;
 const brands = ref([]);
 const sizes = ref([]);
+const sexs = ref([]);
 const isLoading = ref(true);
 
 const getImageUrl = (imageName) => {
@@ -179,6 +185,11 @@ async function showArticles() {
     sizes.value = [
       ...new Set(
         articulos.value.map((item) => item.talla).filter((size) => size)
+      ),
+    ];
+    sexs.value = [
+      ...new Set(
+        articulos.value.map((item) => item.genero).filter((sex) => sex)
       ),
     ];
   } catch (error) {
@@ -245,6 +256,7 @@ const applyFilters = (filters) => {
       ? articulo.marca === filters.brand
       : true;
     const matchesSize = filters.size ? articulo.talla === filters.size : true;
+    const matchesSex = filters.sex ? articulo.genero === filters.sex : true;
     const matchesMinPrice = filters.minPrice
       ? articulo.precio >= filters.minPrice
       : true;
@@ -255,6 +267,7 @@ const applyFilters = (filters) => {
       matchesSearch &&
       matchesBrand &&
       matchesSize &&
+      matchesSex &&
       matchesMinPrice &&
       matchesMaxPrice
     );

@@ -12,7 +12,22 @@
         placeholder="Buscar por título..."
       />
     </div>
-    <div class="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="mb-4 grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div>
+        <label for="sex" class="block text-sm font-medium text-gray-700"
+          >Sexo</label
+        >
+        <select
+          v-model="filters.sex"
+          id="sex"
+          class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+        >
+          <option value="">Todos</option>
+          <option v-for="sex in filteredSexes" :key="sex" :value="sex">
+            {{ sex }}
+          </option>
+        </select>
+      </div>
       <div>
         <label for="brand" class="block text-sm font-medium text-gray-700"
           >Marca</label
@@ -77,14 +92,12 @@
       >
         Limpiar Filtros
       </button>
-      <div class="flex justify-end">
-        <button
-          @click="applyFilters"
-          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Aplicar Filtros
-        </button>
-      </div>
+      <button
+        @click="applyFilters"
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Aplicar Filtros
+      </button>
     </div>
   </div>
 </template>
@@ -96,10 +109,17 @@ const props = defineProps({
   brands: {
     type: Array,
     required: true,
+    default: () => [],
   },
   sizes: {
     type: Array,
     required: true,
+    default: () => [],
+  },
+  sexes: {
+    type: Array,
+    required: true,
+    default: () => [],
   },
 });
 
@@ -109,6 +129,7 @@ const filters = ref({
   search: "",
   brand: "",
   size: "",
+  sex: "",
   minPrice: 0,
   maxPrice: 0,
 });
@@ -117,6 +138,7 @@ const clearFilters = () => {
   filters.value.search = "";
   filters.value.brand = "";
   filters.value.size = "";
+  filters.value.sex = "";
   filters.value.minPrice = 0;
   filters.value.maxPrice = 0;
 };
@@ -125,8 +147,15 @@ const applyFilters = () => {
   emit("apply-filters", filters.value);
 };
 
-const filteredBrands = computed(() => props.brands.filter((brand) => brand));
-const filteredSizes = computed(() => props.sizes.filter((size) => size));
+const filteredBrands = computed(() =>
+  props.brands ? props.brands.filter((brand) => brand) : []
+);
+const filteredSizes = computed(() =>
+  props.sizes ? props.sizes.filter((size) => size) : []
+);
+const filteredSexes = computed(() =>
+  props.sexes ? props.sexes.filter((sex) => sex) : []
+);
 </script>
 
 <style scoped></style>
