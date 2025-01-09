@@ -168,7 +168,7 @@ const isLogged = () =>
 async function showArticles() {
   try {
     const articlesResponse = await axios.get(
-      "https://serverapi.up.railway.app/articles/allArticles"
+      "https://tiendafutbol-backend.onrender.com/articles/allArticles"
     );
 
     const sortedArticulos = articlesResponse.data

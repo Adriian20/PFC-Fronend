@@ -103,7 +103,8 @@ const isLogged = () =>
 async function showArticles() {
   try {
     const response = await axios.get(
-      "https://serverapi.up.railway.app/articles/article/" + route.params.id
+      "https://tiendafutbol-backend.onrender.com/articles/article/" +
+        route.params.id
     );
     articulo.value = response.data;
     loaded.value = true;

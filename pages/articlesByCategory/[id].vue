@@ -173,7 +173,7 @@ const isLogged = () =>
 async function showArticlesByCategory() {
   try {
     const response = await axios.get(
-      "https://serverapi.up.railway.app/articles/findByCategoria/" +
+      "https://tiendafutbol-backend.onrender.com/articles/findByCategoria/" +
         route.params.id
     );
     const filteredArticles = response.data.filter(

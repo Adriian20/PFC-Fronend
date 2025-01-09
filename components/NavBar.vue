@@ -256,7 +256,7 @@ const logout = async () => {
       token: localStorage.getItem("token"),
     };
     await axios.post(
-      "https://serverapi.up.railway.app/users/logoutUser",
+      "https://tiendafutbol-backend.onrender.com/users/logoutUser",
       token
     );
     localStorage.removeItem("token");

@@ -47,7 +47,7 @@ const categorias = ref([]);
 async function showCategories() {
   try {
     const response = await axios.get(
-      "https://serverapi.up.railway.app/categories/allCategories"
+      "https://tiendafutbol-backend.onrender.com/categories/allCategories"
     );
     categorias.value = response.data;
   } catch (error) {

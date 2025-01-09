@@ -133,7 +133,7 @@ function toggleShowContrasenya(index) {
 async function changePassword() {
   try {
     const response = await axios.put(
-      "https://serverapi.up.railway.app/users/changePassword",
+      "https://tiendafutbol-backend.onrender.com/users/changePassword",
       { contrasenya: contrasenya.value, token }
     );
     successMessage.value = "¡Tu contraseña se ha cambiado correctamente!";
@@ -151,7 +151,7 @@ async function changePassword() {
 async function showUserInformation() {
   try {
     const response = await axios.post(
-      "https://serverapi.up.railway.app/users/userInformation",
+      "https://tiendafutbol-backend.onrender.com/users/userInformation",
       { token }
     );
     email.value = response.data.email;

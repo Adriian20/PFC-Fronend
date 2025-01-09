@@ -137,7 +137,7 @@ const cuentaBancariaRules = [
 async function showUserInformation() {
   try {
     const response = await axios.post(
-      "https://serverapi.up.railway.app/users/userInformation",
+      "https://tiendafutbol-backend.onrender.com/users/userInformation",
       { token }
     );
     nombre.value = response.data.nombre;
@@ -171,7 +171,7 @@ async function editUser() {
     }
 
     const response = await axios.put(
-      "https://serverapi.up.railway.app/users/editUser",
+      "https://tiendafutbol-backend.onrender.com/users/editUser",
       userData
     );
     successMessage.value = "¡El usuario se ha editado correctamente!";

@@ -225,7 +225,7 @@ const getImageUrl = (imageName) => {
 const getStockForItem = async (itemId) => {
   try {
     const response = await axios.get(
-      `https://serverapi.up.railway.app/articles/${itemId}/showStock`
+      `https://tiendafutbol-backend.onrender.com/articles/${itemId}/showStock`
     );
     return response.data;
   } catch (error) {
@@ -237,7 +237,7 @@ const getStockForItem = async (itemId) => {
 const getStockForVisit = async (visitId) => {
   try {
     const response = await axios.get(
-      `https://serverapi.up.railway.app/visits/${visitId}/showStockEntradas`
+      `https://tiendafutbol-backend.onrender.com/visits/${visitId}/showStockEntradas`
     );
     return response.data;
   } catch (error) {
@@ -290,14 +290,14 @@ async function buyProducts() {
   try {
     if (Object.keys(articulos).length > 0) {
       await axios.post(
-        `https://serverapi.up.railway.app/users/${user}/buy-articles`,
+        `https://tiendafutbol-backend.onrender.com/users/${user}/buy-articles`,
         articulos
       );
     }
 
     if (Object.keys(visitas).length > 0) {
       await axios.post(
-        `https://serverapi.up.railway.app/users/${user}/buy-visits`,
+        `https://tiendafutbol-backend.onrender.com/users/${user}/buy-visits`,
         visitas
       );
     }
