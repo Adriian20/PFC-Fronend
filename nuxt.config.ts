@@ -17,15 +17,18 @@ export default defineNuxtConfig({
     "@mdi/font/css/materialdesignicons.min.css",
     "vue-toastification/dist/index.css",
   ],
+
   build: {
     transpile: ["vuetify", "vue-toastification"],
   },
+
   postcss: {
     plugins: {
       tailwindcss: {},
       autoprefixer: {},
     },
   },
+
   modules: [
     [
       "@pinia/nuxt",
@@ -34,8 +37,11 @@ export default defineNuxtConfig({
       },
     ],
   ],
+
   pinia: {
     storesDirs: ["stores"],
   },
+
   plugins: [{ src: "~/plugins/vue-toastification.js", mode: "client" }],
+  compatibilityDate: "2025-01-09",
 });
